@@ -1,0 +1,146 @@
+body {
+    background-color: darkgrey;;
+    z-index: -3;
+}
+img {
+    z-index: -1;
+    height: 5%;
+    width: 5%;
+    margin-left: 2%;
+}
+
+#Rubrik {
+    color: darkgrey;
+    font-family: courier;
+    font-size: 300%;
+    z-index: 0;
+    margin-top: -4.5%;
+    text-align: center;
+    z-index: -1;
+}
+#Top1 {
+    background-color: white;
+    width: 102%;
+    height: 15%;
+    margin-left: -2%;
+    margin-right: -2%;
+    margin-top: 0%;
+    position:absolute;
+    left:0%;
+    top:0%;
+    z-index: -1;
+}
+.button {
+    font-family: courier;
+    border: none;
+    color: white;
+    padding: 0.5% 1%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 200%;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin-top: -3.5%;
+    position: absolute;
+
+}
+.button1 {
+    background-color: white;
+    color: darkgrey;
+    margin-left: 66%;
+}
+.button1:hover {
+    background-color: darkgrey;
+    color: white;
+    box-shadow: 10px 10px 10px 5px grey;
+}
+.button2 {
+    background-color: white;
+    color: darkgrey;
+    margin-left: 72%;
+}
+.button2:hover {
+    background-color: darkgrey;
+    color: white;
+    box-shadow: 10px 10px 10px 5px grey;
+}
+.button3 {
+    background-color: white;
+    color: darkgrey;
+    margin-left: 78%;
+}
+.button3:hover {
+    background-color: darkgrey;
+    color: white;
+    box-shadow: 10px 10px 10px 5px grey;
+}
+.button4 {
+    background-color: white;
+    color: darkgrey;
+    margin-left: 84.8%;
+}
+.button4:hover {
+    background-color: darkgrey;
+    color: white;
+    box-shadow: 10px 10px 10px 5px grey;
+}
+#Asset1 {
+    background-color: white;
+    width: 15%;
+    height: 500px;
+    margin-left: 10%;
+    margin-top: 25%;
+    box-shadow: 10px 10px 10px 5px grey;
+    color: darkgray;
+    z-index: -1;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#Asset2 {
+    background-color: white;
+    width: 15%;
+    height: 500px;
+    margin-left: 18%;
+    z-index: -1;
+    box-shadow: 10px 10px 10px 5px grey;
+    color: darkgray;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#Asset3 {
+    background-color: white;
+    width: 15%;
+    height: 500px;
+    z-index: -1;
+    margin-left: 18%;
+    box-shadow: 10px 10px 10px 5px grey;
+    color: darkgray;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#Asset1:hover {
+    background-color: darkgrey;
+    color: white;
+}
+#Asset2:hover {
+    background-color: darkgrey;
+    color: white;
+}
+#Asset3:hover {
+    background-color: darkgrey;
+    color: white;
+}
+
+#Bottom1 {
+    background-color: white;
+    width: 102%;
+    height: 25%;
+    margin-left: -2%;
+    margin-right: -2%;
+    margin-top: 0%;
+    position:absolute;
+    left:0%;
+    bottom:0%;
+    z-index: -2;
+}
