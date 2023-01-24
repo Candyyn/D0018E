@@ -1,5 +1,10 @@
 routes = {
     "/" : {
-        "template" : "index.html" 
+        "template": "index.html",
+        "post": "indexPost.py"
     },
+    "/index": {
+        "template": "index.html",
+        "post": "indexPost.py"
+    }
 }
