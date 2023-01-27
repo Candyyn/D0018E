@@ -5,7 +5,10 @@ import importlib.util
 
 
 class PostHandler(RequestHandler):
-    def __init__(self):
+    request = None
+
+    def __init__(self, request):
+        self.request = request
         super().__init__()
         self.contentType = 'text/json'
 
@@ -14,15 +17,14 @@ class PostHandler(RequestHandler):
 
             # convert an array of string like test=123 to a dict like {'test': '123'}
             route_args = dict([arg.split('=') for arg in routeArgs])
-            print('post.{}'.format(routeData['post']))
-            spec = importlib.util.spec_from_file_location("post", 'C:/Users/karle/WebstormProjects/D0018E/post/indexPost.py')
+            spec = importlib.util.spec_from_file_location("post", 'post/{}'.format(routeData['post']))
             foo = importlib.util.module_from_spec(spec)
             sys.modules["post"] = foo
             spec.loader.exec_module(foo)
             _postClass = foo.PostClass()
-            data = _postClass.exec(route_args)
-            self.contents = data
             self.setStatus(200)
+            data = _postClass.exec(self, self.request, route_args)
+            self.contents = data
             return True
         except Exception as e:
             print(e)

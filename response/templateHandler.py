@@ -1,13 +1,15 @@
 from response.requestHandler import RequestHandler
 
 class TemplateHandler(RequestHandler):
-    def __init__(self):
+
+    request = None
+
+    def __init__(self, request):
+        self.request = request
         super().__init__()
         self.contentType = 'text/html'
 
     def find(self, routeData, request_arg):
-        print("test 1")
-        print(request_arg)
 
         try:
             template_file = open('templates/{}'.format(routeData['template']))

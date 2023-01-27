@@ -11,7 +11,15 @@ from response.postHandler import PostHandler
 
 
 class Server(BaseHTTPRequestHandler):
+
+    def getAuthToken(self):
+        try:
+            return self.headers['Authorization']
+        except:
+            return None
+
     def do_HEAD(self):
+        print("HEAD")
         return
 
     def do_GET(self):
@@ -26,7 +34,7 @@ class Server(BaseHTTPRequestHandler):
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
-                handler = TemplateHandler()
+                handler = TemplateHandler(self)
                 handler.find(routes[request_path], request_args)
             else:
                 handler = BadRequestHandler()
@@ -52,7 +60,7 @@ class Server(BaseHTTPRequestHandler):
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
-                handler = PostHandler()
+                handler = PostHandler(self)
                 handler.find(routes[request_path], request_args)
             else:
                 handler = BadRequestHandler()
@@ -63,16 +71,15 @@ class Server(BaseHTTPRequestHandler):
             'handler': handler
         })
 
-
     def handle_http(self, handler):
         status_code = handler.getStatus()
 
         self.send_response(status_code)
 
-        if status_code == 200:
-            content = handler.getContents()
-            self.send_header('Content-type', handler.getContentType())
-        else:
+        content = handler.getContents()
+        self.send_header('Content-type', handler.getContentType())
+
+        if status_code == 404:
             content = "404 Not Found"
 
         self.end_headers()
