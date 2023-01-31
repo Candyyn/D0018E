@@ -13,6 +13,8 @@ class StaticHandler(RequestHandler):
             "notfound": "text/plain"
         }
 
+        self.contents = ""
+
     def find(self, file_path):
         split_path = os.path.splitext(file_path)
         extension = split_path[1]
