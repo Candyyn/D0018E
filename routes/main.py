@@ -5,7 +5,7 @@ routes = {
     },
     "/index": {
         "template": "index.html",
-        "post": "indexPost.py"
+        "post": "indexPost.py",
     },
     "/shop": {
               "template": "Shop.html",

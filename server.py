@@ -90,5 +90,8 @@ class Server(BaseHTTPRequestHandler):
             return bytes(content, 'UTF-8')
 
     def respond(self, opts):
-        response = self.handle_http(opts['handler'])
-        self.wfile.write(response)
+        try:
+            response = self.handle_http(opts['handler'])
+            self.wfile.write(response)
+        except ConnectionAbortedError:
+            pass
