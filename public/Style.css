@@ -10,7 +10,11 @@ body {
     background-size: cover;
     position: absolute;
 }
-
+header{
+    backdrop-filter: blur(20px);
+    position: fixed;
+    width: 100%;
+}
 
 * {
     margin: 0;
@@ -25,7 +29,10 @@ img {
     margin-left: 2%;
     margin-top: 1%;
 }
-
+#test{
+    z-index: 3;
+    margin-top: 20%;
+}
 #Rubrik {
     color: darkgrey;
     font-family: courier;
@@ -95,7 +102,7 @@ img {
     width: 15%;
     height: 500px;
     margin-left: 10%;
-    margin-top: 25%;
+    margin-top: 15%;
     box-shadow: 10px 10px 10px 5px grey;
     color: darkgray;
     z-index: -1;
