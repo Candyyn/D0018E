@@ -10,6 +10,5 @@ class PostClass:
 
     @staticmethod
     def exec(posthandler, request, args):
-        print(registerUser(args['email'], args['password'], "test", "test123"))
-        print(args)
+        #print(registerUser(args['email'], args['password'], "test", "test123"))
         return "test"

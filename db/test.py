@@ -8,7 +8,7 @@ class Test:
         self.array = []
         database = Database().db
         cursor = database.cursor()
-        cursor.execute("SELECT * FROM USERS")
+        cursor.execute("SELECT * FROM CUSTOMER")
         self.raw = cursor.fetchall()
 
         if(self.raw is not None) and (type(self.raw) is list):

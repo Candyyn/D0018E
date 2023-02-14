@@ -1,5 +1,5 @@
 import os
-
+import urllib.parse
 from http.server import BaseHTTPRequestHandler
 
 from routes.main import routes
@@ -11,6 +11,7 @@ from response.postHandler import PostHandler
 
 
 class Server(BaseHTTPRequestHandler):
+    data_string = None
 
     def getAuthToken(self):
         try:
@@ -19,7 +20,6 @@ class Server(BaseHTTPRequestHandler):
             return None
 
     def do_HEAD(self):
-        print("HEAD")
         return
 
     def do_GET(self):
@@ -29,6 +29,9 @@ class Server(BaseHTTPRequestHandler):
         try:
             request_args = split_path[0].split('?')[1]
             request_args = request_args.split('&')
+
+            temp = self.rfile.read(int(self.headers['Content-Length']))
+            self.data_string = temp.decode('utf-8').split('&')
         except:
             request_args = ""
 
@@ -71,8 +74,15 @@ class Server(BaseHTTPRequestHandler):
         try:
             request_args = split_path[0].split('?')[1]
             request_args = request_args.split('&')
+
         except:
             request_args = ""
+
+        try:
+            temp = self.rfile.read(int(self.headers['Content-Length']))
+            self.data_string = {s.split('=')[0]: s.split('=')[1] for s in urllib.parse.unquote(temp.decode('utf-8')).split('&')}
+        except:
+            self.data_string = ""
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
@@ -95,7 +105,6 @@ class Server(BaseHTTPRequestHandler):
         content = handler.getContents()
         self.send_header('Content-type', handler.getContentType())
 
-        print(status_code)
         if status_code == 404:
             content = "404 Not Found"
 

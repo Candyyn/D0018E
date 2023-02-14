@@ -8,6 +8,7 @@ class PostHandler(RequestHandler):
     request = None
 
     def __init__(self, request):
+        self.data_string = request.data_string
         self.request = request
         super().__init__()
         self.contentType = 'text/json'

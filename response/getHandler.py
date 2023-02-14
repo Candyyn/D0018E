@@ -27,6 +27,5 @@ class PostHandler(RequestHandler):
             self.contents = data
             return True
         except Exception as e:
-            print(e)
             self.setStatus(404)
             return False

@@ -6,7 +6,11 @@ import jwt
 import bcrypt
 
 # move this secret to somewhere else
-secret = "secret"
+secret = "slinky-pursuant-macaw-punk-sandblast-gaming-paralyze"
+
+"""
+    Register a new user
+"""
 
 
 def registerUser(email, password, first_name, last_name):
@@ -19,7 +23,6 @@ def registerUser(email, password, first_name, last_name):
         # User does not exist, create user
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-        print(hashed)
         query = "INSERT INTO CUSTOMER (email, password, salt, first_name, last_name) VALUES (%s, %s, %s, %s, %s)"
         values = (email, hashed.decode('utf-8'), salt.decode('utf-8'), first_name, last_name)
         cursor.execute(query, values)
@@ -30,24 +33,33 @@ def registerUser(email, password, first_name, last_name):
         return False
 
 
+"""
+    Authenticate user
+"""
+
+
 def loginUser(email, password):
     database = Database().db
     cursor = database.cursor()
-    cursor.execute(
-        "SELECT user_id, email, first_name, last_name, role, password FROM CUSTOMER WHERE email = '" + email + "'")
+    query = "SELECT user_id, email, first_name, last_name, role, password FROM CUSTOMER WHERE email = %s"
+    values = (email,)
+    cursor.execute(query, values)
     raw = cursor.fetchone()
     if raw is not None:
         # User exist, check password
         if bcrypt.checkpw(password.encode('utf-8'), raw[5].encode('utf-8')):
             # Password correct, create token
-            print("password correct")
             token = createToken(
                 {"id": raw[0], "email": raw[1], "role": raw[4], "first_name": raw[2], "last_name": raw[3]})
             return token
         else:
-            print("password incorrect")
             # Password incorrect
             return None
+
+
+"""
+    Create a token
+"""
 
 
 def createToken(user):
@@ -67,11 +79,21 @@ def createToken(user):
     return token
 
 
+"""
+    Save token to database
+"""
+
+
 def saveToken(token, expires):
     database = Database().db
     cursor = database.cursor()
-    #cursor.execute("INSERT INTO TOKENS (tokens, expires) VALUES ('" + token + "', '" + str(expires) + "')")
+    # cursor.execute("INSERT INTO TOKENS (tokens, expires) VALUES ('" + token + "', '" + str(expires) + "')")
     database.commit()
+
+
+"""
+    Decode token
+"""
 
 
 def decodeToken(token):
@@ -80,6 +102,11 @@ def decodeToken(token):
         return data
     except:
         return None
+
+
+"""
+    Verify token
+"""
 
 
 def verifyToken(token):

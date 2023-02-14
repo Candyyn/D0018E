@@ -14,7 +14,6 @@ class TemplateHandler(RequestHandler):
         try:
             template_file = open('templates/{}'.format(routeData['template']))
             self.contents = template_file
-            print(routeData)
             self.setStatus(200)
             return True
         except:
