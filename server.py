@@ -48,9 +48,25 @@ class Server(BaseHTTPRequestHandler):
             'handler': handler
         })
 
+    def checkifAfterSymbol(self, my_string, symbol, target):
+        if symbol in my_string:
+            substrings = my_string.split(symbol)
+            if target in substrings[1]:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    # Create a list with whitelisted extensions
     def do_POST(self):
         split_path = os.path.splitext(self.path)
         request_extension = split_path[1]
+
+        if self.checkifAfterSymbol(self.path, '?', request_extension):
+            split_path = (split_path[0] + request_extension, "")
+            request_extension = ""
+
         request_path = self.path.split('?')[0]
         try:
             request_args = split_path[0].split('?')[1]
@@ -79,6 +95,7 @@ class Server(BaseHTTPRequestHandler):
         content = handler.getContents()
         self.send_header('Content-type', handler.getContentType())
 
+        print(status_code)
         if status_code == 404:
             content = "404 Not Found"
 

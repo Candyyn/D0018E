@@ -18,7 +18,6 @@
     <button onclick="document.location='./checkout'" class="button button4">Checkout</button>
 
 
-
 </header>
 
 
@@ -177,12 +176,12 @@
         request.send(data);
     }
 
-    sendPostRequest("http://localhost/", "test", function (resp) {
+    sendPostRequest("/", "test", function (resp) {
         // parse json string
         var data = JSON.parse(resp);
         var table = document.getElementById("test");
         for (var i = 0; i < resp.length; i++) {
-            var row = table.insertRow(i+1);
+            var row = table.insertRow(i + 1);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
