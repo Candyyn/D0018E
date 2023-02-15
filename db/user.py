@@ -13,7 +13,7 @@ secret = "slinky-pursuant-macaw-punk-sandblast-gaming-paralyze"
 """
 
 
-def registerUser(email, password, first_name, last_name):
+def registerUser(email, password, first_name, last_name, phone, address):
     database = Database().db
     cursor = database.cursor()
     cursor.execute("SELECT user_id, email FROM CUSTOMER WHERE email = '" + email + "'")
@@ -23,11 +23,20 @@ def registerUser(email, password, first_name, last_name):
         # User does not exist, create user
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-        query = "INSERT INTO CUSTOMER (email, password, salt, first_name, last_name) VALUES (%s, %s, %s, %s, %s)"
-        values = (email, hashed.decode('utf-8'), salt.decode('utf-8'), first_name, last_name)
+        query = "INSERT INTO CUSTOMER (email, password, salt, first_name, last_name, phone, address) VALUES (%s, %s, " \
+                "%s, %s, %s, %s, %s)"
+        values = (email, hashed.decode('utf-8'), salt.decode('utf-8'), first_name, last_name, phone, address)
         cursor.execute(query, values)
         database.commit()
-        return True
+        # get row
+        query = "SELECT CUSTOMER.user_id, CUSTOMER.email, CUSTOMER.first_name, " \
+                "CUSTOMER.last_name, CUSTOMER.password, ROLES.role_id, ROLES.name, ROLES.bitwise FROM CUSTOMER " \
+                "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id WHERE email = %s"
+        values = (email,)
+        cursor.execute(query, values)
+        raw = cursor.fetchone()
+
+        return createUserResponse(raw)
     else:
         # User exist
         return False
@@ -52,26 +61,35 @@ def loginUser(email, password):
         # User exist, check password
         if bcrypt.checkpw(password.encode('utf-8'), raw[4].encode('utf-8')):
             # Password correct, create token
-            token = createToken(
-                {"id": raw[0], "email": raw[1], "role": {"id": raw[5], "name": raw[6], "bit": bin(raw[7])},
-                 "first_name": raw[2], "last_name": raw[3]})
-
-            data = {
-                "id": raw[0],
-                "email": raw[1],
-                "first_name": raw[2],
-                "last_name": raw[3],
-                "role": {
-                    "id": raw[5],
-                    "name": raw[6],
-                    "bit": bin(raw[7])
-                }
-            }
-
-            return data, token
+            return createUserResponse(raw)
         else:
             # Password incorrect
             return None
+
+
+"""
+    Create user data     
+"""
+
+
+def createUserResponse(userRaw):
+    token = createToken(
+        {"id": userRaw[0], "email": userRaw[1], "role": {"id": userRaw[5], "name": userRaw[6], "bit": bin(userRaw[7])},
+         "first_name": userRaw[2], "last_name": userRaw[3]})
+
+    data = {
+        "id": userRaw[0],
+        "email": userRaw[1],
+        "first_name": userRaw[2],
+        "last_name": userRaw[3],
+        "role": {
+            "id": userRaw[5],
+            "name": userRaw[6],
+            "bit": bin(userRaw[7])
+        }
+    }
+
+    return data, token
 
 
 def getUser(token):
@@ -82,8 +100,8 @@ def getUser(token):
         return {
             "id": data["sub"],
             "email": data["email"],
-            "first_name": data["first_name"],
-            "last_name": data["last_name"],
+            "first_name": data["name"].split(" ")[0],
+            "last_name": data["name"].split(" ")[1],
             "role": data["role"]
         }
 
@@ -95,7 +113,8 @@ def getUser(token):
 
 def createToken(user):
     data = {
-        "sub": user["email"],
+        "sub": user["id"],
+        "email": user["email"],
         "name": user["first_name"] + " " + user["last_name"],
         "iat": datetime.datetime.utcnow(),
         "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),

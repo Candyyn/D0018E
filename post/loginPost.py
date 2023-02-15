@@ -17,9 +17,6 @@ class PostClass:
                 return json.dumps({'error': "Invalid Arguments"})
             else:
                 args = posthandler.data_string
-
-        print(args['email'], args['password'])
-
         data, token = loginUser(args['email'], args['password'])
         "token = None"
         if token is not None:

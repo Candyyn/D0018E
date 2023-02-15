@@ -31,10 +31,15 @@ class Server(BaseHTTPRequestHandler):
             request_args = split_path[0].split('?')[1]
             request_args = request_args.split('&')
 
+        except:
+            request_args = {}
+
+        try:
             temp = self.rfile.read(int(self.headers['Content-Length']))
             self.data_string = temp.decode('utf-8').split('&')
+
         except:
-            request_args = ""
+            self.data_string = ""
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
@@ -57,6 +62,7 @@ class Server(BaseHTTPRequestHandler):
             'handler': handler
         })
 
+
     def checkifAfterSymbol(self, my_string, symbol, target):
         if symbol in my_string:
             substrings = my_string.split(symbol)
@@ -66,6 +72,7 @@ class Server(BaseHTTPRequestHandler):
                 return False
         else:
             return False
+
 
     # Create a list with whitelisted extensions
     def do_POST(self):
@@ -103,6 +110,7 @@ class Server(BaseHTTPRequestHandler):
         self.respond({
             'handler': handler
         })
+
 
     def handle_http(self, handler):
         status_code = handler.getStatus()

@@ -7,13 +7,20 @@ import bcrypt
 
 # move this secret to somewhere else
 secret = "slinky-pursuant-macaw-punk-sandblast-gaming-paralyze"
+itemAmount = 10
+
+"""
+    Get products
+"""
 
 
 def getProducts(page):
+    print("[products.py] getProducts")
+    _page = int(page) * itemAmount
     database = Database().db
     cursor = database.cursor()
-    query = "SELECT * FROM PRODUCTS LIMIT 10 OFFSET %s"
-    values = (page * 10,)
+    query = "SELECT * FROM PRODUCTS LIMIT %s OFFSET %s"
+    values = (itemAmount, _page)
     cursor.execute(query, values)
     raw = cursor.fetchall()
     products = []
@@ -24,12 +31,13 @@ def getProducts(page):
             "description": product[2],
             "price": product[3],
             "image": product[4],
-            "category": product[5]
+            "availability": product[5]
         })
     return products
 
 
 def getProduct(product_id):
+    print("[products.py] getProduct")
     database = Database().db
     cursor = database.cursor()
     query = "SELECT * FROM PRODUCTS WHERE prod_id = %s"
@@ -56,6 +64,7 @@ def getProduct(product_id):
 
 
 def createProduct(name, description, price, image, availability):
+    print("[products.py] createProduct")
     database = Database().db
     cursor = database.cursor()
     query = "INSERT INTO PRODUCTS (name, description, price, image, availability) VALUES (%s, %s, %s, %s, %s)"
@@ -72,6 +81,7 @@ def createProduct(name, description, price, image, availability):
 
 
 def deleteProduct(product_id):
+    print("[products.py] deleteProduct")
     database = Database().db
     cursor = database.cursor()
     query = "DELETE FROM PRODUCTS WHERE prod_id = %s"

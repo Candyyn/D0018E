@@ -22,9 +22,9 @@ class getDataHandler(RequestHandler):
             foo = importlib.util.module_from_spec(spec)
             sys.modules["get"] = foo
             spec.loader.exec_module(foo)
-            _postClass = foo.PostClass()
+            _getClass = foo.GetClass()
             self.setStatus(200)
-            data = _postClass.exec(self, self.request, route_args)
+            data = _getClass.exec(self, self.request, route_args)
             self.contents = data
             return True
         except Exception as e:

@@ -9,7 +9,10 @@ routes = {
     },
     "/shop": {
         "template": "Shop.html",
-        "post": "indexPost.py"
+    },
+    "/shop/products": {
+        "template": "",
+        "get": "productGet.py",
     },
     "/login": {
         "template": "login.html",
@@ -31,5 +34,10 @@ routes = {
     "/test": {
         "template": "",
         "get": "testGet.py",
+    },
+
+    "/basket/content": {
+        "template": "",
+        "get": "basketGet.py",
     },
 }
