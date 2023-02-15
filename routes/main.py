@@ -40,4 +40,9 @@ routes = {
         "template": "",
         "get": "basketGet.py",
     },
+
+    "/basket/add": {
+        "template": "",
+        "post": "basketAdd.py",
+    },
 }

@@ -190,3 +190,14 @@ def hasPermission(required, userperm):
         return True
     else:
         return False
+
+
+def checkIfAuth(request):
+    token = request.headers.get("Authorization")
+    if token is None:
+        raise Exception("No token provided")
+    else:
+        if verifyToken(token):
+            return getUser(token)
+        else:
+            raise Exception("Invalid token")
