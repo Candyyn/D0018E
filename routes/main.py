@@ -22,5 +22,14 @@ routes = {
     "/checkout": {
         "template": "checkout.html",
         "post": "indexPost.py"
-    }
+    },
+    "/verify": {
+        "template": "",
+        "get": "verifyGet.py",
+        "post": "verifyPost.py"
+    },
+    "/test": {
+        "template": "",
+        "get": "testGet.py",
+    },
 }

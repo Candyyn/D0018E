@@ -8,6 +8,7 @@ from response.staticHandler import StaticHandler
 from response.templateHandler import TemplateHandler
 from response.badRequestHandler import BadRequestHandler
 from response.postHandler import PostHandler
+from response.getDataHandler import getDataHandler
 
 
 class Server(BaseHTTPRequestHandler):
@@ -37,8 +38,13 @@ class Server(BaseHTTPRequestHandler):
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
-                handler = TemplateHandler(self)
-                handler.find(routes[request_path], request_args)
+                if routes[request_path]['template'] != '' and routes[request_path]['template'] is not None:
+                    handler = TemplateHandler(self)
+                    handler.find(routes[request_path], request_args)
+                else:
+                    handler = getDataHandler(self)
+                    handler.find(routes[request_path], request_args)
+
             else:
                 handler = BadRequestHandler()
         elif request_extension == ".py":
@@ -80,7 +86,8 @@ class Server(BaseHTTPRequestHandler):
 
         try:
             temp = self.rfile.read(int(self.headers['Content-Length']))
-            self.data_string = {s.split('=')[0]: s.split('=')[1] for s in urllib.parse.unquote(temp.decode('utf-8')).split('&')}
+            self.data_string = {s.split('=')[0]: s.split('=')[1] for s in
+                                urllib.parse.unquote(temp.decode('utf-8')).split('&')}
         except:
             self.data_string = ""
 

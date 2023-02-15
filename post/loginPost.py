@@ -20,12 +20,12 @@ class PostClass:
 
         print(args['email'], args['password'])
 
-        token = loginUser(args['email'], args['password'])
+        data, token = loginUser(args['email'], args['password'])
         "token = None"
         if token is not None:
             posthandler.setStatus(200)
             posthandler.contentType = 'text/json'
-            return json.dumps({'token': token})
+            return json.dumps({'user': data, 'token': token})
         else:
             posthandler.setStatus(401)
             posthandler.contentType = 'text/json'

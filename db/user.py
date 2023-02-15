@@ -41,20 +41,51 @@ def registerUser(email, password, first_name, last_name):
 def loginUser(email, password):
     database = Database().db
     cursor = database.cursor()
-    query = "SELECT user_id, email, first_name, last_name, role, password FROM CUSTOMER WHERE email = %s"
+    # Select CUSTOMER from email, and get role from ROLES based on role
+    query = "SELECT CUSTOMER.user_id, CUSTOMER.email, CUSTOMER.first_name, " \
+            "CUSTOMER.last_name, CUSTOMER.password, ROLES.role_id, ROLES.name, ROLES.bitwise FROM CUSTOMER " \
+            "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id WHERE email = %s"
     values = (email,)
     cursor.execute(query, values)
     raw = cursor.fetchone()
     if raw is not None:
         # User exist, check password
-        if bcrypt.checkpw(password.encode('utf-8'), raw[5].encode('utf-8')):
+        if bcrypt.checkpw(password.encode('utf-8'), raw[4].encode('utf-8')):
             # Password correct, create token
             token = createToken(
-                {"id": raw[0], "email": raw[1], "role": raw[4], "first_name": raw[2], "last_name": raw[3]})
-            return token
+                {"id": raw[0], "email": raw[1], "role": {"id": raw[5], "name": raw[6], "bit": bin(raw[7])},
+                 "first_name": raw[2], "last_name": raw[3]})
+
+            data = {
+                "id": raw[0],
+                "email": raw[1],
+                "first_name": raw[2],
+                "last_name": raw[3],
+                "role": {
+                    "id": raw[5],
+                    "name": raw[6],
+                    "bit": bin(raw[7])
+                }
+            }
+
+            return data, token
         else:
             # Password incorrect
             return None
+
+
+def getUser(token):
+    data = decodeToken(token)
+    if data is None:
+        return None
+    else:
+        return {
+            "id": data["sub"],
+            "email": data["email"],
+            "first_name": data["first_name"],
+            "last_name": data["last_name"],
+            "role": data["role"]
+        }
 
 
 """
@@ -125,3 +156,18 @@ def verifyToken(token):
         if raw is None:
             return False
         return True
+
+
+"""
+    Check if user has permission
+"""
+
+
+def hasPermission(required, userperm):
+    # This is a bitwise permission check
+    # If the user has the required permission, the bitwise AND will return the same value as the required permission
+    # If the user does not have the required permission, the bitwise AND will return 0
+    if required & userperm == required:
+        return True
+    else:
+        return False
