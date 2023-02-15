@@ -31,16 +31,10 @@ routes = {
         "get": "verifyGet.py",
         "post": "verifyPost.py"
     },
-    "/test": {
-        "template": "",
-        "get": "testGet.py",
-    },
-
     "/basket/content": {
         "template": "",
         "get": "basketGet.py",
     },
-
     "/basket/add": {
         "template": "",
         "post": "basketAdd.py",

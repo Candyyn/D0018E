@@ -11,7 +11,7 @@
 - Admin
 
 ## Permissions
-- Create Product - 
+- Create Product - 0x01000000
 - Delete Product -
 - View Orders - 
 - Update Orders - 
