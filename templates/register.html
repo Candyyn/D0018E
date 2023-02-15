@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trasiga Lampor</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+<div class="background"></div>
+<header>
+    <img src="/img/logo.png" alt="logo">
+
+    <h1 id="Rubrik">Broken Lämps</h1>
+
+    <button onclick="document.location='./'" class="button button1">Main</button>
+    <button onclick="document.location='./shop'" class="button button2">Shop</button>
+    <button onclick="document.location='./login'" class="button button3">Login</button>
+    <button onclick="document.location='./checkout'" class="button button4">Checkout</button>
+
+
+    <svg id="Top1">
+        <rect/>
+    </svg>
+</header>
+
+<h2>Create Account</h2>
+
+<form action="./login" method="post">
+
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+        <br>
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+        <br>
+        <button onclick="document.location='./index'" class="login" type="submit">Create</button>
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+    </div>
+</form>
+
+<svg id="Bottom1">
+    <rect/>
+</svg>
+</body>
+</html>
