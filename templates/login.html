@@ -25,16 +25,16 @@
 
 <h2>Login Form</h2>
 
-<form action="./login" method="post">
+<form method="post" id="loginForm">
 
   <div class="container">
     <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+    <input type="text" placeholder="Enter Email" name="email" id="email" required>
     <br>
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
+    <input type="password" placeholder="Enter Password" name="password" id="password" required>
     <br>
-    <button onclick="document.location='./index'" class="login" type="submit">Login</button>
+    <button class="login" type="submit">Login</button>
     <label>
       <input type="checkbox" checked="checked" name="remember"> Remember me
     </label>
@@ -48,5 +48,6 @@
 <svg id="Bottom1">
   <rect/>
 </svg>
+<script lang="js" src="/JS/login.js" ></script>
 </body>
 </html>

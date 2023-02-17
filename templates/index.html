@@ -154,50 +154,7 @@
 
 <script>
 
-    // send a simple post request to the server
-    function sendPostRequest(url, data, callback) {
-        var request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        request.onload = function () {
-            if (request.status >= 200 && request.status < 400) {
-                // Success!
-                var resp = request.responseText;
-                callback(resp);
-            } else {
-                // We reached our target server, but it returned an error
-                console.log("Error: " + request.status);
-            }
-        };
-        request.onerror = function () {
-            // There was a connection error of some sort
-            console.log("Error: " + request.status);
-        };
-        request.send(data);
-    }
 
-    sendPostRequest("/", "test", function (resp) {
-        // parse json string
-        var data = JSON.parse(resp);
-        var table = document.getElementById("test");
-        for (var i = 0; i < resp.length; i++) {
-            var row = table.insertRow(i + 1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-
-            cell1.innerHTML = data[i][0];
-            cell2.innerHTML = data[i][1];
-            cell3.innerHTML = data[i][2];
-            cell4.innerHTML = data[i][3];
-            cell5.innerHTML = data[i][4];
-
-        }
-
-        console.log(data);
-    })
 
 
 </script>

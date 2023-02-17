@@ -62,7 +62,6 @@ class Server(BaseHTTPRequestHandler):
             'handler': handler
         })
 
-
     def checkifAfterSymbol(self, my_string, symbol, target):
         if symbol in my_string:
             substrings = my_string.split(symbol)
@@ -72,7 +71,6 @@ class Server(BaseHTTPRequestHandler):
                 return False
         else:
             return False
-
 
     # Create a list with whitelisted extensions
     def do_POST(self):
@@ -91,10 +89,13 @@ class Server(BaseHTTPRequestHandler):
         except:
             request_args = ""
 
+        print(self.headers)
         try:
             temp = self.rfile.read(int(self.headers['Content-Length']))
             self.data_string = {s.split('=')[0]: s.split('=')[1] for s in
                                 urllib.parse.unquote(temp.decode('utf-8')).split('&')}
+            print('test')
+            print(temp)
         except:
             self.data_string = ""
 
@@ -110,7 +111,6 @@ class Server(BaseHTTPRequestHandler):
         self.respond({
             'handler': handler
         })
-
 
     def handle_http(self, handler):
         status_code = handler.getStatus()
