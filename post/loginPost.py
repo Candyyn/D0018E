@@ -10,8 +10,8 @@ class PostClass:
 
     @staticmethod
     def exec(posthandler, request, args):
-        if len(args) != 2:
-            if len(posthandler.data_string) != 2:
+        if len(args) != 3:
+            if len(posthandler.data_string) != 3:
                 posthandler.setStatus(400)
                 posthandler.contentType = 'text/json'
                 return json.dumps({'error': "Invalid Arguments"})

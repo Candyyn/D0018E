@@ -57,6 +57,7 @@ def loginUser(email, password):
     values = (email,)
     cursor.execute(query, values)
     raw = cursor.fetchone()
+    print('loginstuff')
     if raw is not None:
         # User exist, check password
         if bcrypt.checkpw(password.encode('utf-8'), raw[4].encode('utf-8')):

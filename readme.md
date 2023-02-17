@@ -1,5 +1,6 @@
 # How to start
 - Clone the repo
+- Run `pipip install -r requirements.txt`
 - Run `python main`
 - ...
 - Profit
