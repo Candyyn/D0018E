@@ -1,5 +1,4 @@
 const loginForm = document.querySelector('#loginForm');
-console.log(loginForm);
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent default submit
     //const formData = new FormData(loginForm);

@@ -18,26 +18,31 @@ def registerUser(email, password, first_name, last_name, phone, address):
     cursor = database.cursor()
     cursor.execute("SELECT user_id, email FROM CUSTOMER WHERE email = '" + email + "'")
     raw = cursor.fetchone()
-
+    print(raw)
     if raw is None:
         # User does not exist, create user
+        print(password)
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+        print('beasd')
         query = "INSERT INTO CUSTOMER (email, password, salt, first_name, last_name, phone, address) VALUES (%s, %s, " \
                 "%s, %s, %s, %s, %s)"
         values = (email, hashed.decode('utf-8'), salt.decode('utf-8'), first_name, last_name, phone, address)
         cursor.execute(query, values)
         database.commit()
-        # get row
+
+        last_row_id = cursor.lastrowid
+
         query = "SELECT CUSTOMER.user_id, CUSTOMER.email, CUSTOMER.first_name, " \
                 "CUSTOMER.last_name, CUSTOMER.password, ROLES.role_id, ROLES.name, ROLES.bitwise FROM CUSTOMER " \
-                "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id WHERE email = %s"
-        values = (email,)
+                "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id WHERE user_id = %s"
+        values = (last_row_id,)
         cursor.execute(query, values)
         raw = cursor.fetchone()
-
+        print(raw)
         return createUserResponse(raw)
     else:
+        print('else')
         # User exist
         return False
 

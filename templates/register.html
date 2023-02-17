@@ -25,7 +25,7 @@
 
 <h2>Create Account</h2>
 
-<form action="./login" method="post">
+<form method="post" id="registerForm">
 
     <div class="container">
         <label for="uname"><b>Firstname</b></label>
@@ -46,7 +46,7 @@
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" id="Password" required>
         <br>
-        <button onclick="document.location='./index'" class="login" type="submit">Create</button>
+        <button class="login" type="submit">Create</button>
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
@@ -56,5 +56,7 @@
 <svg id="Bottom1">
     <rect/>
 </svg>
+
+<script lang="js" src="/JS/register.js" ></script>
 </body>
 </html>
