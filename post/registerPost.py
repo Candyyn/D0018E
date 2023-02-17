@@ -10,11 +10,6 @@ class PostClass:
 
     @staticmethod
     def exec(posthandler, request, args):
-        #print(registerUser(args['email'], args['password'], "test", "test123"))
-        return "test"
-
-
-    def exec(posthandler, request, args):
         if len(args) != 6:
             if len(posthandler.data_string) != 6:
                 posthandler.setStatus(400)
