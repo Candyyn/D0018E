@@ -8,7 +8,8 @@ async function getProducts(page) {
         var _d = await response.json()
         var products = _d.products;
         products.forEach((item) => {
-            var element = createProductItem(item.name, item.image, item.price, item.description, item.availability)
+            console.log(item)
+            var element = createProductItem(item.product_id, item.name, item.image, item.price, item.description, item.availability)
             document.querySelector('#items').appendChild(element);
         })
 
@@ -23,15 +24,18 @@ window.addEventListener("load", async (event) => {
 });
 
 
-
-function createProductItem(title, image, _price, desc, _stock) {
+function createProductItem(id, title, image, _price, desc, _stock) {
     // Create SVG element
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("id", "Store2");
+
+    // create DIV element
+    const div = document.createElement("div");
+    div.classList.add("product");
+
 
     // Create rectangle element
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    svg.appendChild(rect);
+    //const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    //div.appendChild(rect);
 
     // Create foreignObject element
     const foreignObject = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
@@ -39,45 +43,55 @@ function createProductItem(title, image, _price, desc, _stock) {
     foreignObject.setAttribute("y", "10");
     foreignObject.setAttribute("width", "90%");
     foreignObject.setAttribute("height", "100%");
-    svg.appendChild(foreignObject);
+    //div.appendChild(foreignObject);
+
+    const innerDiv = document.createElement("div");
+    innerDiv.classList.add("innerDiv");
+    div.appendChild(innerDiv);
+
 
     // Create h2 element
     const h2 = document.createElement("h2");
     h2.classList.add("LampaRubrik");
     h2.textContent = "Trasig Lampa 2";
-    foreignObject.appendChild(h2);
+    innerDiv.appendChild(h2);
 
     // Create image element
     const img = document.createElement("img");
     img.classList.add("lampa");
     img.setAttribute("src", "/Assets/lampa2.png");
     img.setAttribute("alt", "lampa");
-    foreignObject.appendChild(img);
+    innerDiv.appendChild(img);
 
     // Create price paragraph element
     const price = document.createElement("p");
     price.classList.add("price");
     price.textContent = "Price: " + _price + "kr";
-    foreignObject.appendChild(price);
+    innerDiv.appendChild(price);
 
     // Create description paragraph element
     const description = document.createElement("p");
     description.classList.add("Description");
     description.textContent = desc;
-    foreignObject.appendChild(description);
+    innerDiv.appendChild(description);
 
     // Create stock paragraph element
     const stock = document.createElement("p");
     stock.classList.add("stock");
     stock.textContent = "Availability: " + _stock;
-    foreignObject.appendChild(stock);
+    innerDiv.appendChild(stock);
 
     // Create buy button element
     const buyButton = document.createElement("button");
     buyButton.classList.add("buy");
     buyButton.textContent = "Buy";
-    foreignObject.appendChild(buyButton);
+    buyButton.addEventListener("click", function () {
+        addProductToCart(id)
+    });
+    innerDiv.appendChild(buyButton);
 
     // Return the created SVG element
-    return svg;
+    return div;
 }
+
+

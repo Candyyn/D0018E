@@ -24,7 +24,6 @@ routes = {
     },
     "/checkout": {
         "template": "checkout.html",
-        "post": "indexPost.py"
     },
     "/verify": {
         "template": "",
@@ -34,9 +33,14 @@ routes = {
     "/basket/content": {
         "template": "",
         "get": "basketGet.py",
+        "delete": "basketDelete.py",
     },
     "/basket/add": {
         "template": "",
         "post": "basketAdd.py",
+    },
+    "/basket/checkout": {
+        "template": "",
+        "post": "checkout.py",
     },
 }

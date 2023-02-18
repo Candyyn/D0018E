@@ -57,7 +57,6 @@ def loginUser(email, password):
     values = (email,)
     cursor.execute(query, values)
     raw = cursor.fetchone()
-    print('loginstuff')
     if raw is not None:
         # User exist, check password
         if bcrypt.checkpw(password.encode('utf-8'), raw[4].encode('utf-8')):
@@ -138,7 +137,7 @@ def createToken(user):
 def saveToken(token, expires):
     database = Database().db
     cursor = database.cursor()
-    # cursor.execute("INSERT INTO TOKENS (tokens, expires) VALUES ('" + token + "', '" + str(expires) + "')")
+    cursor.execute("INSERT INTO TOKENS (tokens, expires) VALUES ('" + token + "', '" + str(expires) + "')")
     database.commit()
 
 
@@ -166,7 +165,9 @@ def verifyToken(token):
         return False
     else:
         # Check if token is expired
-        if data["exp"] < datetime.datetime.utcnow():
+        then = data["exp"]
+        now = datetime.datetime.utcnow() + datetime.timedelta(days=0)
+        if then < int(now.timestamp()):
             return False
         # Check if token is valid
         database = Database().db
@@ -198,6 +199,10 @@ def checkIfAuth(request):
     if token is None:
         raise Exception("No token provided")
     else:
+
+        # Remove Bearer from token
+        token = token.replace("Bearer ", "")
+
         if verifyToken(token):
             return getUser(token)
         else:

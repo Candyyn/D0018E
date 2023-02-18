@@ -12,46 +12,16 @@
 
     <h1 id="Rubrik">Broken Lämps</h1>
 
-    <button onclick="document.location='./'" class="button button1">Main</button>
-    <button onclick="document.location='./shop'" class="button button2">Shop</button>
-    <button onclick="document.location='./login'" class="button button3">Login</button>
-    <button onclick="document.location='./checkout'" class="button button4">Checkout</button>
+    <div class="menu">
+        <button onclick="document.location='./'" class="button button1">Main</button>
+        <button onclick="document.location='./shop'" class="button button2">Shop</button>
+        <button id="login" onclick="document.location='./login'" class="button button3">Login</button>
+        <button onclick="document.location='./checkout'" class="button button4">Checkout ( <span id="basket"></span> )
+        </button>
+    </div>
 
 
 </header>
-
-
-<div style="margin: auto;
-  width: 50%;
-  padding: 10px; display: flex; justify-content: center">
-    <table id="test">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Created</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 
 
 <svg id="Asset1">
@@ -152,12 +122,8 @@
 </svg>
 
 
-<script>
+<script lang="js" src="/JS/main.js"></script>
 
-
-
-
-</script>
 <footer>
 
 </footer>

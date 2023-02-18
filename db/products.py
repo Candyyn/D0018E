@@ -50,7 +50,8 @@ def getProduct(product_id):
             "name": raw[1],
             "description": raw[2],
             "price": raw[3],
-            "availability": raw[4],
+            "image": raw[4],
+            "availability": raw[5],
             # "category": raw[5]
         }
     else:
@@ -86,6 +87,31 @@ def deleteProduct(product_id):
     cursor = database.cursor()
     query = "DELETE FROM PRODUCTS WHERE prod_id = %s"
     values = (product_id,)
+    cursor.execute(query, values)
+    database.commit()
+    return True
+
+
+def lockProduct(product_id):
+    print("[products.py] updateAmount")
+    try:
+        database = Database().db
+        cursor = database.cursor()
+        query = "UPDATE PRODUCTS SET availability = availability - 1 WHERE prod_id = %s"
+        values = (product_id,)
+        cursor.execute(query, values)
+        database.commit()
+        return True
+    except Exception as e:
+        return False
+
+
+def unlockProduct(product_id, amount=1):
+    print("[products.py] updateAmount")
+    database = Database().db
+    cursor = database.cursor()
+    query = "UPDATE PRODUCTS SET availability = availability + %s WHERE prod_id = %s"
+    values = (amount, product_id)
     cursor.execute(query, values)
     database.commit()
     return True

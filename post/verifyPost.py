@@ -1,4 +1,6 @@
-from db.user import getUser
+import json
+
+from db.user import getUser, verifyToken
 
 
 class PostClass:
@@ -7,4 +9,9 @@ class PostClass:
 
     @staticmethod
     def exec(posthandler, request, args):
-        return getUser(request.headers['authorization'])
+
+        # remove Bearer from token
+        token = request.headers['authorization'].replace("Bearer ", "")
+
+        response = verifyToken(token)
+        return json.dumps({'tokenVerified': response}, default=str)

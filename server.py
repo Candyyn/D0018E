@@ -9,6 +9,7 @@ from response.templateHandler import TemplateHandler
 from response.badRequestHandler import BadRequestHandler
 from response.postHandler import PostHandler
 from response.getDataHandler import getDataHandler
+from response.deleteHandler import DeleteHandler
 
 
 class Server(BaseHTTPRequestHandler):
@@ -89,19 +90,52 @@ class Server(BaseHTTPRequestHandler):
         except:
             request_args = ""
 
-        print(self.headers)
         try:
             temp = self.rfile.read(int(self.headers['Content-Length']))
             self.data_string = {s.split('=')[0]: s.split('=')[1] for s in
                                 urllib.parse.unquote(temp.decode('utf-8')).split('&')}
-            print('test')
-            print(temp)
-        except:
+        except Exception as e:
             self.data_string = ""
 
         if request_extension == "" or request_extension == ".html":
             if request_path in routes:
                 handler = PostHandler(self)
+                handler.find(routes[request_path], request_args)
+            else:
+                handler = BadRequestHandler()
+        else:
+            handler = BadRequestHandler()
+
+        self.respond({
+            'handler': handler
+        })
+
+    def do_DELETE(self):
+        split_path = os.path.splitext(self.path)
+        request_extension = split_path[1]
+
+        if self.checkifAfterSymbol(self.path, '?', request_extension):
+            split_path = (split_path[0] + request_extension, "")
+            request_extension = ""
+
+        request_path = self.path.split('?')[0]
+        try:
+            request_args = split_path[0].split('?')[1]
+            request_args = request_args.split('&')
+
+        except:
+            request_args = ""
+
+        try:
+            temp = self.rfile.read(int(self.headers['Content-Length']))
+            self.data_string = {s.split('=')[0]: s.split('=')[1] for s in
+                                urllib.parse.unquote(temp.decode('utf-8')).split('&')}
+        except Exception as e:
+            self.data_string = ""
+
+        if request_extension == "" or request_extension == ".html":
+            if request_path in routes:
+                handler = DeleteHandler(self)
                 handler.find(routes[request_path], request_args)
             else:
                 handler = BadRequestHandler()
