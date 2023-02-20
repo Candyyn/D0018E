@@ -124,7 +124,7 @@ def createToken(user):
     token = jwt.encode(data, secret, algorithm="HS256")
 
     # Save token to database
-    saveToken(token, data["exp"])
+    saveToken(user, token, data["exp"])
 
     return token
 
@@ -134,10 +134,13 @@ def createToken(user):
 """
 
 
-def saveToken(token, expires):
+def saveToken(user, token, expires):
     database = Database().db
     cursor = database.cursor()
-    cursor.execute("INSERT INTO TOKENS (tokens, expires) VALUES ('" + token + "', '" + str(expires) + "')")
+    query = "INSERT INTO TOKENS (user_id, tokens, expires) VALUES (%s, %s, %s)"
+    values = (user['id'], token, expires)
+
+    cursor.execute(query, values)
     database.commit()
 
 
