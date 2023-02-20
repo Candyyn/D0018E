@@ -137,7 +137,8 @@ def createToken(user):
 def saveToken(user, token, expires):
     database = Database().db
     cursor = database.cursor()
-    query = "INSERT INTO TOKENS (user_id, tokens, expires) VALUES (%s, %s, %s)"
+    query = "INSERT INTO TOKENS (user_id, tokens, expires) VALUES (%s, %s, %s) " \
+            "ON DUPLICATE KEY UPDATE tokens = VALUES(tokens), expires = VALUES(expires)"
     values = (user['id'], token, expires)
 
     cursor.execute(query, values)
