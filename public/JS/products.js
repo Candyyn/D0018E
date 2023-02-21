@@ -53,13 +53,13 @@ function createProductItem(id, title, image, _price, desc, _stock) {
     // Create h2 element
     const h2 = document.createElement("h2");
     h2.classList.add("LampaRubrik");
-    h2.textContent = "Trasig Lampa 2";
+    h2.textContent = title;
     innerDiv.appendChild(h2);
 
     // Create image element
     const img = document.createElement("img");
     img.classList.add("lampa");
-    img.setAttribute("src", "/Assets/lampa2.png");
+    img.setAttribute("src", image);
     img.setAttribute("alt", "lampa");
     innerDiv.appendChild(img);
 
