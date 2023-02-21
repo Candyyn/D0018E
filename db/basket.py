@@ -46,6 +46,7 @@ def addBasket(user_id, product_id):
     product_available = product["availability"]
     product_price = product["price"]
 
+
     # Check if product is available
     if product_available < 1:
         return False
@@ -57,7 +58,7 @@ def addBasket(user_id, product_id):
     database = Database().db
     cursor = database.cursor()
     query = "INSERT INTO SHOPPING_CART (user_id, product_id, amount) VALUES (%s, %s, %s) " \
-            "ON DUPLICATE KEY UPDATE amount = amount + VALUES(amount);"
+            "ON DUPLICATE KEY UPDATE amount = amount + VALUES(amount)"
     values = (user_id, product_id, 1)
     cursor.execute(query, values)
     database.commit()
