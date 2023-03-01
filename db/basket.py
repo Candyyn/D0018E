@@ -120,3 +120,35 @@ def UserCheckOut(user_id):
     cursor.execute(query, values)
     database.commit()
     return True
+
+
+"""
+Add a product
+"""
+
+def addProduct(name, description, price, image, availability):
+    # Insert product into PRODUCTS
+    database = Database().db
+    cursor = database.cursor()
+    query = "START TRANSACTION;"
+    query += "INSERT INTO PRODUCTS (name, description, price, image, availability) VALUES (%s, %s, %s, %s, %s)"
+    query += "COMMIT;"
+    values = (name, description, price, image, availability)
+    cursor.execute(query, values)
+    database.commit()
+    return True
+
+"""
+Delete Product
+"""
+def removeProduct(product_id):
+    # Delete row from PRODUCTS
+    database = Database().db
+    cursor = database.cursor()
+    query = "START TRANSACTION;"
+    query = "DELETE FROM PRODUCTS WHERE prod_id = %s;"
+    query += "COMMIT;"
+    values = (product_id,)
+    cursor.execute(query, values)
+    database.commit()
+    return True

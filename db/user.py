@@ -188,7 +188,7 @@ def verifyToken(token):
 """
 
 
-def hasPermission(required, userperm):
+def hasBitPermission(required, userperm):
     # This is a bitwise permission check
     # If the user has the required permission, the bitwise AND will return the same value as the required permission
     # If the user does not have the required permission, the bitwise AND will return 0
@@ -211,3 +211,15 @@ def checkIfAuth(request):
             return getUser(token)
         else:
             raise Exception("Invalid token")
+
+"""
+    Check if user have correct permission. Throws error otherwise.
+"""
+def hasPermission(user, permission):
+    if user is None:
+        raise Exception("No user provided")
+
+    if hasBitPermission(permission, user["role"]["bitwise"]) is False:
+        raise Exception("User does not have access")
+
+    return True

@@ -16,4 +16,4 @@
 - Delete Product -
 - View Orders - 
 - Update Orders - 
-- 
+- View Users - 0x01100000
