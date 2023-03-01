@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-<div class="background"></div>
+<div class="background"></div> <!-- Creates background so that it can be controlled with z-index-->
 <header>
-    <img src="/img/logo.png" alt="logo">
+    <img src="/img/logo.png" alt="logo"> <!--Page logo -->
 
-    <h1 id="Rubrik">Broken Lämps</h1>
+    <h1 id="Rubrik">Broken Lämps</h1> <!--Header and all the buttons -->
 
     <div class="menu">
         <button onclick="document.location='./'" class="button button1">Main</button>
@@ -27,11 +27,11 @@
     </svg>
 </header>
 
-<h2>Create Account</h2>
+<h2>Create Account</h2> <!--create account page -->
 
 <form method="post" id="registerForm">
 
-    <div class="container">
+    <div class="container"> <!--The form -->
         <label for="uname"><b>Firstname</b></label>
         <input type="text" placeholder="First Name" name="Firstname" id="Firstname" required>
         <br>
@@ -61,6 +61,6 @@
     <rect/>
 </svg>
 
-<script lang="js" src="/JS/register.js" ></script>
+<script lang="js" src="/JS/register.js" ></script> <!--Loads register script -->
 </body>
 </html>

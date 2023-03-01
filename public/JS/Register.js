@@ -1,5 +1,5 @@
 const form = document.querySelector('#registerForm');
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", async (event) => { <!--takes the input from the register page and logs it -->
     event.preventDefault(); // Prevent default submit
     //const formData = new FormData(loginForm);
     const email = document.querySelector('#Email').value;
@@ -11,7 +11,7 @@ form.addEventListener("submit", async (event) => {
 
     try {
 
-        const details = {
+        const details = { <!--Saves data -->
             email: email,
             password: password,
             first_name: first,
@@ -20,7 +20,7 @@ form.addEventListener("submit", async (event) => {
             phone: phone,
         }
 
-        var formBody = [];
+        var formBody = []; <!--To be able to send tha data to the database -->
         for (var property in details) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(details[property]);

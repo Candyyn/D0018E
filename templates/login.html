@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-<div class="background"></div>
+<div class="background"></div> <!-- Creates background so that it can be controlled with z-index-->
 <header>
-    <img src="/img/logo.png" alt="logo">
+    <img src="/img/logo.png" alt="logo"> <!--Page logo -->
 
-    <h1 id="Rubrik">Broken Lämps</h1>
+    <h1 id="Rubrik">Broken Lämps</h1> <!--Header and all the buttons -->
 
     <p>
         Demo: email@test.com secretWillNeedToBeEncrypted
@@ -30,7 +30,7 @@
     </svg>
 </header>
 
-<h2>Login Form</h2>
+<h2>Login Form</h2> <!--Creates the login forms -->
 
 <div class="container">
     <form method="post" id="loginForm">
@@ -48,13 +48,13 @@
 
     </form>
 </div>
-<div class="Create">
+<div class="Create"> <!--The create text/button -->
     <span> <a onclick="document.location='./register'" href="#">Create Account</a></span>
 </div>
 
 <svg id="Bottom1">
     <rect/>
 </svg>
-<script lang="js" src="/JS/login.js"></script>
+<script lang="js" src="/JS/login.js"></script> <!--Loads javaScript file for login -->
 </body>
 </html>

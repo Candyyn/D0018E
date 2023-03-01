@@ -1,5 +1,5 @@
 const loginForm = document.querySelector('#loginForm');
-loginForm.addEventListener("submit", async (event) => {
+loginForm.addEventListener("submit", async (event) => { <!--Event listener -->
     event.preventDefault(); // Prevent default submit
     //const formData = new FormData(loginForm);
     const email = document.querySelector('#email').value;
@@ -7,13 +7,13 @@ loginForm.addEventListener("submit", async (event) => {
 
     try {
 
-        var details = {
+        var details = {  <!--Saves email,password in variables -->
             email: email,
             password: password,
             remember: true,
         }
 
-        var formBody = [];
+        var formBody = []; <!--To be able to send tha data to the database -->
         for (var property in details) {
             var encodedKey = encodeURIComponent(property);
             var encodedValue = encodeURIComponent(details[property]);
@@ -21,7 +21,7 @@ loginForm.addEventListener("submit", async (event) => {
         }
         formBody = formBody.join("&");
 
-        const response = await fetch('/login', {
+        const response = await fetch('/login', { <!--Fetch the response -->
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -29,7 +29,7 @@ loginForm.addEventListener("submit", async (event) => {
             body: formBody,
         });
 
-        if (response.ok) {
+        if (response.ok) { <!--If everything checks out then log it, othewise error -->
             const data = await response.json();
             setLocalStorageItem('token', data.token);
             setLocalStorageItem('user', data.user);
