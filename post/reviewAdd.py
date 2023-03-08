@@ -1,18 +1,17 @@
 import json
 
 from db.user import getUser, checkIfAuth
-from db.basket import addBasket
+from db.reviews import addReview
 
 
 class PostClass:
     def __init__(self):
         pass
 
-
     """
         Add product to basket
-        
-    
+
+
     """
 
     @staticmethod
@@ -29,8 +28,12 @@ class PostClass:
 
             user = checkIfAuth(request)
             product_id = args['product_id']
-            response = addBasket(user['id'], product_id)
-            return json.dumps({'success': str(response)}, default=str)
+
+            comment = args['comment']
+            rate = args['rate']
+
+            success = addReview(user, product_id, comment, rate)
+
+            return json.dumps({'success': str(success)}, default=str)
         except Exception as e:
-            print(e)
             return json.dumps({'error': e}, default=str)

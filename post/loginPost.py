@@ -18,7 +18,6 @@ class PostClass:
             else:
                 args = posthandler.data_string
         data, token = loginUser(args['email'], args['password'])
-        "token = None"
         if token is not None:
             posthandler.setStatus(200)
             posthandler.contentType = 'text/json'

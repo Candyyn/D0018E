@@ -43,4 +43,9 @@ routes = {
         "template": "",
         "post": "checkout.py",
     },
+    "/review": {
+        "template": "",
+        "post": "reviewPost.py",
+        "get": "reviewGet.py"
+    }
 }

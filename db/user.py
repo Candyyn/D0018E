@@ -12,7 +12,7 @@ secret = "slinky-pursuant-macaw-punk-sandblast-gaming-paralyze"
     Register a new user
 """
 
-
+"""
 def registerUser(email, password, first_name, last_name, phone, address):
     database = Database().db
     cursor = database.cursor()
@@ -40,6 +40,49 @@ def registerUser(email, password, first_name, last_name, phone, address):
     else:
         # User exist
         return False
+
+"""
+
+def registerUser(email, password, first_name, last_name, phone, address):
+    database = Database().db
+    cursor = database.cursor()
+
+    try:
+        # Start transaction
+        cursor.execute("START TRANSACTION")
+
+        cursor.execute("SELECT user_id, email FROM CUSTOMER WHERE email = %s", (email,))
+        raw = cursor.fetchone()
+
+        if raw is None:
+            # User does not exist, create user
+            salt = bcrypt.gensalt()
+            hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+            query = "INSERT INTO CUSTOMER (email, password, salt, first_name, last_name, phone, address) VALUES (%s, %s, " \
+                    "%s, %s, %s, %s, %s)"
+            values = (email, hashed.decode('utf-8'), salt.decode('utf-8'), first_name, last_name, phone, address)
+            cursor.execute(query, values)
+            # get row
+            query = "SELECT CUSTOMER.user_id, CUSTOMER.email, CUSTOMER.first_name, " \
+                    "CUSTOMER.last_name, CUSTOMER.password, ROLES.role_id, ROLES.name, ROLES.bitwise FROM CUSTOMER " \
+                    "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id WHERE email = %s"
+            values = (email,)
+            cursor.execute(query, values)
+            raw = cursor.fetchone()
+            createUserResponse(raw)
+        else:
+            # User exists
+            raise Exception("User already exists")
+
+        # Commit transaction
+        cursor.execute("COMMIT")
+        return True
+
+    except Exception as e:
+        # Rollback transaction
+        cursor.execute("ROLLBACK")
+        return False
+
 
 
 """
