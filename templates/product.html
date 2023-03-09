@@ -37,10 +37,11 @@
     </div>
 </div>
 
+
 <!--------------------------------------------------------------------------------->
-<div class="card">
+<div class="card" style="margin:50px auto">
     <div class="row">
-        <div class="col-10">
+        <div class="col-12">
             <div class="comment-box ml-2">
 
                 <h4>Add a comment</h4>
@@ -54,14 +55,15 @@
                 </div>
 
                 <div class="comment-area">
-                    <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
+                    <textarea id="commentText" class="form-control" placeholder="what is your view?" rows="4"></textarea>
                 </div>
 
                 <div class="comment-btns mt-2">
                     <div class="row">
                         <div class="col-6">
                             <div class="pull-right">
-                                <button class="btn btn-success send btn-sm">Send <i class="fa fa-long-arrow-right ml-1"></i></button>
+                                <button class="btn btn-success send btn-sm" onclick="submitRating()">Send <i
+                                        class="fa fa-long-arrow-right ml-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -73,8 +75,13 @@
 <!--------------------------------------------------------------------------------->
 
 
+<div class="card" style="margin:20px auto">
+    <div class="row" id="comments">
 
+    </div>
+</div>
 
+<!-- Comments -->
 
 
 <script lang="js" src="/JS/main.js"></script> <!--Load JavaScript files -->

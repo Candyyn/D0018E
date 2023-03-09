@@ -17,6 +17,7 @@ routes = {
     "/product": {
         "template": "",
         "get": "productInfoGet.py",
+        "post": "productSendPost.py"
     },
     "/shop/product": {
         "template": "product.html",

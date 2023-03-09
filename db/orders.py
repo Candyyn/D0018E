@@ -6,7 +6,8 @@ from db.main import Database
 def getOrders():
     database = Database().db
     cursor = database.cursor()
-    cursor.execute("SELECT o.order_id, u.first_name, u.email, p.prod_id 'prod_id', p.name, p.price, oi.quantity "
+    cursor.execute("SELECT o.order_id, u.first_name, u.email, p.prod_id 'prod_id', p.name, p.price, "
+                   "oi.quantity, o.status, u.user_id "
                    "FROM ORDERS o "
                    "JOIN CUSTOMER u ON o.user_id = u.user_id "
                    "JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id "
@@ -19,9 +20,11 @@ def getOrders():
             orders.append({
                 "id": order[0],
                 "user": {
+                    "id": order[8],
                     "first_name": order[1],
                     "email": order[2]
                 },
+                "status": order[7],
                 "products": [{
                     "id": order[3],
                     "name": order[4],
@@ -47,7 +50,7 @@ def updateOrder(args):
         try:
             cursor.execute("START TRANSACTION")
             query = "DELETE FROM ORDER_ITEMS WHERE order_id = %s"
-            values = (args["id"],)
+            values = (args["order_id"],)
             cursor.execute(query, values)
             database.commit()
             return True
@@ -61,7 +64,7 @@ def updateOrder(args):
         try:
             cursor.execute("START TRANSACTION")
             query = "UPDATE ORDERS SET status = %s WHERE order_id = %s"
-            values = (args["status"], args["id"])
+            values = (args["status"], args["order_id"])
             cursor.execute(query, values)
             database.commit()
             return True

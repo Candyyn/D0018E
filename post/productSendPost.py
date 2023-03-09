@@ -1,7 +1,7 @@
 import json
 
 from db.user import getUser, checkIfAuth, hasPermission, updateUser
-from db.orders import updateOrder
+from db.products import createComment
 
 
 class PostClass:
@@ -20,10 +20,8 @@ class PostClass:
         # Get User basket from token
         try:
             user = checkIfAuth(request)
-            # TODO: Update the permission to the correct one
-            hasPermission(user, 0x01000100)
             if len(args) == 0:
                 raise Exception('No id given')
-            return json.dumps({'success': updateOrder(args)}, default=str)
+            return json.dumps({'success': createComment(user, args)}, default=str)
         except Exception as e:
             return json.dumps({'error': e}, default=str)

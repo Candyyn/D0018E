@@ -201,20 +201,6 @@
                 <th>Email</th>
                 <th>Action</th>
             </tr>
-            <tr>
-                <td>JohnDoe</td>
-                <td>johndoe@example.com</td>
-                <td>
-                    <button>Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td>JaneDoe</td>
-                <td>janedoe@example.com</td>
-                <td>
-                    <button>Edit</button>
-                </td>
-            </tr>
         </table>
     </section>
     <section style="display: none" id="products">
@@ -225,22 +211,6 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Action</th>
-            </tr>
-            <tr>
-                <td>Product 1</td>
-                <td>Description 1</td>
-                <td>$10.00</td>
-                <td>
-                    <button>Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Product 2</td>
-                <td>Description 2</td>
-                <td>$20.00</td>
-                <td>
-                    <button>Edit</button>
-                </td>
             </tr>
         </table>
     </section>
@@ -253,24 +223,6 @@
                 <th>User</th>
                 <th>Quantity</th>
                 <th>Action</th>
-            </tr>
-            <tr>
-                <td>123</td>
-                <td>Product 1</td>
-                <td>JohnDoe</td>
-                <td>2</td>
-                <td>
-                    <button>Edit</button>
-                </td>
-            </tr>
-            <tr>
-                <td>456</td>
-                <td>Product 2</td>
-                <td>JaneDoe</td>
-                <td>1</td>
-                <td>
-                    <button>Edit</button>
-                </td>
             </tr>
         </table>
     </section>
@@ -444,40 +396,48 @@
             .then(wrapper => {
                 const users = wrapper.orders;
                 _cache = users;
+                console.log("Got Orders")
+                console.log(users)
                 // Insert into user table
                 const table = document.querySelector('#orders table');
                 //clear table
                 table.innerHTML = `
                     <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Order ID</th>
                         <th>Email</th>
-                        <th>Role</th>
+                        <th>First name</th>
+                        <th>Status</th>
+                        <th>Products</th>
                         <th>Action</th>
                     </tr>
                 `;
                 users.forEach(user => {
                     const row = document.createElement('tr');
+
+                    const products = user.products.map(product => {
+                        return product.name;
+                    }).join(', ');
+
                     row.innerHTML = `
                         <td>${user.id}</td>
-                        <td>${user.first_name}</td>
-                        <td>${user.last_name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.role.name}</td>
+                        <td>${user.user.email}</td>
+                        <td>${user.user.first_name}</td>
+                        <td>${user.status}</td>
+                        <td>${products}</td>
                         <td>
                             <button>Edit</button>
                         </td>
                     `;
 
+                    console.log(row)
+
                     const editBtn = row.querySelector('button');
                     editBtn.addEventListener('click', () => {
                         // Add your event handler function here
-                        actionBtn(_id, user.product_id)
+                        actionBtn(_id, user.id)
                     });
 
 // Add the row to the table
-                    const table = document.querySelector('table');
                     table.appendChild(row);
                 });
             });
@@ -523,10 +483,20 @@
                 body: formBody,
             });
 
-            console.log(response);
             // If response is ok, then close the modal
             if (response.ok) {
                 modal.style.display = "none";
+
+                setTimeout(() => {
+                    if (type === 'users') {
+                        fetchUsers();
+                    } else if (type === 'products') {
+                        fetchProducts();
+                    } else if (type === 'orders') {
+                        fetchOrders();
+                    }
+                }, 1000);
+
             }
         })
 
@@ -677,14 +647,24 @@
             const th1 = document.createElement('th');
             th1.innerText = 'ID';
             const th2 = document.createElement('th');
-            th2.innerText = 'First Name';
+            th2.innerText = 'User ID';
+            const th3 = document.createElement('th');
+            th3.innerText = 'Status';
+
             const input1 = document.createElement('input');
             input1.type = 'text';
+            input1.name = 'order_id';
+            input1.value = data.id;
             const input2 = document.createElement('input');
             input2.type = 'text';
+            input2.value = data.user.id;
+            const input3 = document.createElement('input');
+            input3.type = 'text';
+            input3.name = 'status';
+            input3.value = data.status;
 
             const tr = document.createElement('tr');
-            tr.append(th1, th2);
+            tr.append(th1, th2, th3);
             tbody.append(tr);
 
             const tr2 = document.createElement('tr');
@@ -692,8 +672,10 @@
             td1.append(input1);
             const td2 = document.createElement('td');
             td2.append(input2);
+            const td3 = document.createElement('td');
+            td3.append(input3);
 
-            tr2.append(td1, td2);
+            tr2.append(td1, td2, td3);
             tbody.append(tr2);
 
         }

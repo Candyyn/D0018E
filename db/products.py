@@ -46,15 +46,23 @@ def getProduct(product_id):
     database = Database().db
     cursor = database.cursor()
     # query = "SELECT * FROM PRODUCTS WHERE prod_id = %s"
-    query = """SELECT p.*, IFNULL(AVG(r.rating), 0) AS avg_rating
+    query = """SELECT p.*, IFNULL(AVG(r.rating), 0) AS avg_rating, GROUP_CONCAT(CONCAT(r.rating, ': ', r.comment, ': ',
+                    C.first_name,' ', C.last_name)) AS comments
                     FROM PRODUCTS p
                     LEFT JOIN REVIEWS r ON p.prod_id = r.prod_id
+                    JOIN CUSTOMER C on r.user_id = C.user_id
                     WHERE p.prod_id = %s
                     GROUP BY p.prod_id;
                     """
     values = (product_id,)
     cursor.execute(query, values)
     raw = cursor.fetchone()
+    print(raw)
+
+    comments = raw[7].split(',')
+    comments = [comment.split(': ') for comment in comments]
+    print(comments)
+
     if raw is not None:
         return {
             "product_id": raw[0],
@@ -63,7 +71,8 @@ def getProduct(product_id):
             "price": raw[3],
             "image": raw[4],
             "availability": raw[5],
-            "rating": raw[6]
+            "rating": raw[6],
+            "comments": comments
         }
     else:
         return None
@@ -215,3 +224,27 @@ def updateProduct(args):
             return False
         finally:
             cursor.close()
+
+
+def createComment(user, args):
+    print("[products.py] createComment")
+    try:
+        database = Database().db
+        cursor = database.cursor()
+        # Begin transaction
+        cursor.execute("START TRANSACTION")
+
+        query = "INSERT INTO REVIEWS (prod_id, user_id, rating, comment) VALUES (%s, %s, %s, %s)"
+        values = (args["id"], user['id'], args["rating"], args["comment"])
+        cursor.execute(query, values)
+
+        # Commit transaction if there are no errors
+        database.commit()
+        return True
+    except Exception as e:
+        # Rollback transaction if there are errors
+        print(e)
+        database.rollback()
+        return False
+    finally:
+        cursor.close()
