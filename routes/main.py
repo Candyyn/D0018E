@@ -14,6 +14,13 @@ routes = {
         "template": "",
         "get": "productGet.py",
     },
+    "/product": {
+        "template": "",
+        "get": "productInfoGet.py",
+    },
+    "/shop/product": {
+        "template": "product.html",
+    },
     "/login": {
         "template": "login.html",
         "post": "loginPost.py"

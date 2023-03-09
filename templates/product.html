@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trasiga Lampor</title>
+    <link rel="stylesheet" href="/Style.css">
+</head>
+<body>
+<div class="background"></div> <!-- Creates background so that it can be controlled with z-index-->
+<header>
+    <img src="/img/logo.png" alt="logo"> <!--Page logo -->
+
+    <h1 id="Rubrik">Broken Lämps</h1> <!--Header and all the buttons -->
+
+    <div class="menu">
+        <button onclick="document.location='./'" class="button button1">Main</button>
+        <button onclick="document.location='./shop'" class="button button2">Shop</button>
+        <button id="login" onclick="document.location='./login'" class="button button3">Login</button>
+        <button onclick="document.location='./checkout'" class="button button4">Checkout ( <span id="basket"></span> )
+        </button>
+    </div>
+
+</header>
+
+<div class="product-info"> <!-- Container for product information -->
+    <img id="image" src="/uploads/lampa3.png" alt="Product Name"> <!-- Product image -->
+    <div class="product-details">
+        <h2 id="name">Loading</h2> <!-- Product name -->
+        <p class="rating">Rating: <span>0</span></p>
+        <p class="price"><span id="price">-</span> kr</p>  <!-- Product price -->
+        <p class="description" id="description">Loading</p> <!-- Product description -->
+        <form action="/add-to-cart" method="post">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" min="1" value="1"> <!-- Quantity selector -->
+            <button type="submit" class="button button2">Add to Cart</button> <!-- Add to cart button -->
+        </form>
+    </div>
+</div>
+
+<div class="product-comment">
+    <div class="product-comment-input-wrapper"></div>
+    <div class="product-comments">
+
+    </div>
+</div>
+
+<script lang="js" src="/JS/main.js"></script> <!--Load JavaScript files -->
+<script lang="js" src="/JS/product.js"></script> <!--Load JavaScript files -->
+</body>
+</html>

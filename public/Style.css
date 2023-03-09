@@ -4,12 +4,13 @@ body {
 
 .background {
     z-index: -2;
+    position: fixed;
     background-image: url('/img/pagebackground.jpg');
     width: 100%;
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
-    position: absolute;
+    /*position: absolute;*/
 }
 
 
@@ -397,4 +398,67 @@ tr:nth-child(even) {
 
 tfoot td {
     font-weight: bold;
+}
+
+
+.product-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    max-width: 960px;
+    background: #2d2d2d;
+    color: white;
+    border-radius: 1rem;
+}
+
+.product-info img {
+    flex: 1 1 30%;
+    z-index: 1;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+
+.product-details {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-details h2 {
+    font-size: 28px;
+    margin-top: 0;
+}
+
+.product-details p.price {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-details p.description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.product-details form {
+    display: flex;
+    align-items: center;
+}
+
+.product-details label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.product-details input[type="number"] {
+    width: 60px;
+    margin-right: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.product-details button {
+    font-size: 16px;
 }

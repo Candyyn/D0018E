@@ -32,6 +32,10 @@ function createProductItem(id, title, image, _price, desc, _stock) {
     const div = document.createElement("div");
     div.classList.add("product");
 
+    div.onclick = function () {
+        window.location.href = "/shop/product?id=" + id;
+    }
+
 
     // Create rectangle element
     //const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
