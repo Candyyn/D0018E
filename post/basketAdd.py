@@ -8,7 +8,6 @@ class PostClass:
     def __init__(self):
         pass
 
-
     """
         Add product to basket
         
@@ -20,13 +19,7 @@ class PostClass:
         # Get User basket from token
         try:
             if len(args) == 0:
-                if len(posthandler.data_string) == 0:
-                    posthandler.setStatus(400)
-                    posthandler.contentType = 'text/json'
-                    return json.dumps({'error': "Invalid Arguments"})
-                else:
-                    args = posthandler.data_string
-
+                raise Exception('No product id given')
             user = checkIfAuth(request)
             product_id = args['product_id']
             response = addBasket(user['id'], product_id)

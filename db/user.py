@@ -43,6 +43,7 @@ def registerUser(email, password, first_name, last_name, phone, address):
 
 """
 
+
 def registerUser(email, password, first_name, last_name, phone, address):
     database = Database().db
     cursor = database.cursor()
@@ -82,7 +83,6 @@ def registerUser(email, password, first_name, last_name, phone, address):
         # Rollback transaction
         cursor.execute("ROLLBACK")
         return False
-
 
 
 """
@@ -147,6 +147,71 @@ def getUser(token):
             "last_name": data["name"].split(" ")[1],
             "role": data["role"]
         }
+
+
+def getUsers():
+    database = Database().db
+    cursor = database.cursor()
+    query = "SELECT CUSTOMER.user_id, CUSTOMER.email, CUSTOMER.first_name, " \
+            "CUSTOMER.last_name, ROLES.role_id, ROLES.name, ROLES.bitwise FROM CUSTOMER " \
+            "INNER JOIN ROLES ON CUSTOMER.role = ROLES.role_id"
+    cursor.execute(query)
+    raw = cursor.fetchall()
+    users = []
+    for user in raw:
+        users.append({
+            "id": user[0],
+            "email": user[1],
+            "first_name": user[2],
+            "last_name": user[3],
+            "role": {
+                "id": user[4],
+                "name": user[5],
+                "bit": bin(user[6])
+            }
+        })
+    return users
+
+
+def updateUser(args):
+    database = Database().db
+    cursor = database.cursor()
+
+    if args['type'] == 'delete':
+        try:
+            # Begin transaction
+            cursor.execute("START TRANSACTION")
+
+            query = "DELETE FROM CUSTOMER WHERE user_id = %s"
+            values = (args["id"],)
+            cursor.execute(query, values)
+
+            # Commit transaction if there are no errors
+            database.commit()
+            return True
+        except Exception as e:
+            # Rollback transaction if there are errors
+            print(e)
+            database.rollback()
+            return False
+        finally:
+            cursor.close()
+    else:
+        try:
+            # Start transaction
+            cursor.execute("START TRANSACTION")
+            query = "UPDATE CUSTOMER SET first_name = %s, last_name = %s, email = %s, role = %s WHERE user_id = %s";
+            values = (args["first_name"], args["last_name"], args["email"], args["role_id"], args["id"])
+            cursor.execute(query, values)
+            # Commit transaction
+            cursor.execute("COMMIT")
+            return True
+        except Exception as e:
+            # Rollback transaction
+            cursor.execute("ROLLBACK")
+            return False
+        finally:
+            cursor.close()
 
 
 """
@@ -235,7 +300,9 @@ def hasBitPermission(required, userperm):
     # This is a bitwise permission check
     # If the user has the required permission, the bitwise AND will return the same value as the required permission
     # If the user does not have the required permission, the bitwise AND will return 0
-    if required & userperm == required:
+    _convert = int(userperm, 2)
+
+    if required & int(_convert) == required:
         return True
     else:
         return False
@@ -255,14 +322,16 @@ def checkIfAuth(request):
         else:
             raise Exception("Invalid token")
 
+
 """
     Check if user have correct permission. Throws error otherwise.
 """
+
+
 def hasPermission(user, permission):
     if user is None:
         raise Exception("No user provided")
-
-    if hasBitPermission(permission, user["role"]["bitwise"]) is False:
+    if hasBitPermission(permission, user["role"]["bit"]) is False:
         raise Exception("User does not have access")
 
     return True

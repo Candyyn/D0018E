@@ -1,3 +1,5 @@
+import json
+
 from response.requestHandler import RequestHandler
 from importlib import import_module
 import sys
@@ -24,6 +26,8 @@ class PostHandler(RequestHandler):
             spec.loader.exec_module(foo)
             _postClass = foo.PostClass()
             self.setStatus(200)
+            if len(route_args) == 0 and len(self.data_string) != 0:
+                route_args = self.data_string
             data = _postClass.exec(self, self.request, route_args)
             self.contents = data
             return True

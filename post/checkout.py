@@ -10,7 +10,6 @@ class PostClass:
 
     """
         User Checkout     
-    
     """
 
     @staticmethod

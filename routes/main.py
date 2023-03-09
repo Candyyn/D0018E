@@ -54,5 +54,24 @@ routes = {
         "template": "",
         "post": "reviewPost.py",
         "get": "reviewGet.py"
-    }
+    },
+    "/admin": {
+        "template": "admin.html",
+    },
+    "/admin/users": {
+        "template": "",
+        "get": "adminUsersGet.py",
+        "post": "adminUsersPost.py",
+    },
+    "/admin/products": {
+        "template": "",
+        "get": "adminProductsGet.py",
+        "post": "adminProductsPost.py",
+    },
+    "/admin/orders": {
+        "template": "",
+        "get": "adminOrdersGet.py",
+        "post": "adminOrdersPost.py",
+    },
+
 }

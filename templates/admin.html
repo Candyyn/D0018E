@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Layout */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+
+        nav li {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li a {
+            display: block;
+            padding: 1rem;
+            color: #333;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #ccc;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin: 0 0 1rem 0;
+        }
+
+        /* Form */
+        form {
+            margin: 1rem 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #666;
+        }
+
+        /* Button */
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #666;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>Admin Page</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="#users">Users</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#orders">Orders</a></li>
+    </ul>
+</nav>
+<main>
+    <section id="users">
+        <h2>Users</h2>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>JohnDoe</td>
+                <td>johndoe@example.com</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+            <tr>
+                <td>JaneDoe</td>
+                <td>janedoe@example.com</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+    <section style="display: none" id="products">
+        <h2>Products</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>Product 1</td>
+                <td>Description 1</td>
+                <td>$10.00</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Product 2</td>
+                <td>Description 2</td>
+                <td>$20.00</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+    <section style="display: none" id="orders">
+        <h2>Orders</h2>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>User</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td>123</td>
+                <td>Product 1</td>
+                <td>JohnDoe</td>
+                <td>2</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+            <tr>
+                <td>456</td>
+                <td>Product 2</td>
+                <td>JaneDoe</td>
+                <td>1</td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+</main>
+
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="formparent"></div>
+
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+<script>
+    // Get references to the navigation links and sections
+    const links = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('main section');
+    let _id = 'users'
+    let _cache = {};
+
+    // Add event listener to each navigation link
+    links.forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+
+            // Hide all sections
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Get the ID of the corresponding section and display it
+            _id = link.getAttribute('href').substring(1);
+            if (_id === 'users') {
+                fetchUsers();
+            } else if (_id === 'products') {
+                fetchProducts();
+            } else {
+                fetchOrders();
+            }
+            const section = document.getElementById(_id);
+            section.style.display = 'block';
+        });
+    });
+
+
+    function fetchUsers() {
+        // fetch with authentication
+
+
+        fetch('/admin/users', {
+            headers: {
+                'Content-Type': 'application/json',
+                // Add Authorization header with token
+
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+            },
+        })
+            .then(response => response.json())
+            .then(wrapper => {
+                const users = wrapper.users;
+                _cache = users;
+                // Insert into user table
+                const table = document.querySelector('#users table');
+                //clear table
+                table.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.first_name}</td>
+                        <td>${user.last_name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role.name}</td>
+                        <td>
+                            <button>Edit</button>
+                        </td>
+                    `;
+                    const editBtn = row.querySelector('button');
+                    editBtn.addEventListener('click', () => {
+                        // Add your event handler function here
+                        actionBtn(_id, user.id)
+                    });
+                    table.appendChild(row);
+                });
+            });
+    }
+
+    function fetchProducts() {
+        // fetch with authentication
+
+
+        fetch('/admin/products', {
+            headers: {
+                'Content-Type': 'application/json',
+                // Add Authorization header with token
+
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+            },
+        })
+            .then(response => response.json())
+            .then(wrapper => {
+                const users = wrapper.products;
+                _cache = users;
+                // Insert into user table
+                const table = document.querySelector('#products table');
+                //clear table
+                table.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Availability</th>
+                        <th>Rating</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.product_id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.description}</td>
+                        <td>${user.price}</td>
+                        <td>${user.availability}</td>
+                        <td>${user.rating}</td>
+                        <td>${user.image}</td>
+                        <td>
+                            <button>Edit</button>
+                        </td>
+                    `;
+                    const editBtn = row.querySelector('button');
+                    editBtn.addEventListener('click', () => {
+                        // Add your event handler function here
+                        actionBtn(_id, user.product_id)
+                    });
+                    table.appendChild(row);
+                });
+            });
+    }
+
+    function fetchOrders() {
+        // fetch with authentication
+
+
+        fetch('/admin/orders', {
+            headers: {
+                'Content-Type': 'application/json',
+                // Add Authorization header with token
+
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+            },
+        })
+            .then(response => response.json())
+            .then(wrapper => {
+                const users = wrapper.orders;
+                _cache = users;
+                // Insert into user table
+                const table = document.querySelector('#orders table');
+                //clear table
+                table.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                `;
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.first_name}</td>
+                        <td>${user.last_name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role.name}</td>
+                        <td>
+                            <button>Edit</button>
+                        </td>
+                    `;
+
+                    const editBtn = row.querySelector('button');
+                    editBtn.addEventListener('click', () => {
+                        // Add your event handler function here
+                        actionBtn(_id, user.product_id)
+                    });
+
+// Add the row to the table
+                    const table = document.querySelector('table');
+                    table.appendChild(row);
+                });
+            });
+    }
+
+
+    fetchUsers();
+
+
+    function generateForm(type, data) {
+        const form = document.createElement('form');
+        const table = document.createElement('table');
+        const tbody = document.createElement('tbody');
+        const submitButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
+
+
+        // form on submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            console.log(new FormData(form))
+
+            var details = {'type': 'update'};
+            new FormData(form).forEach((value, key) => details[key] = value);
+
+            // Post data to server
+            var formBody = []; <!--To be able to send tha data to the database -->
+            for (var property in details) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(details[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            const response = await fetch('/admin/' + type, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+
+                },
+                body: formBody,
+            });
+
+            console.log(response);
+            // If response is ok, then close the modal
+            if (response.ok) {
+                modal.style.display = "none";
+            }
+        })
+
+
+        submitButton.type = 'submit';
+        submitButton.innerText = 'Submit';
+
+        //deleteButton.type = 'submit';
+        deleteButton.innerText = 'Delete';
+        deleteButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            var details = {'type': 'delete'};
+            new FormData(form).forEach((value, key) => details[key] = value);
+
+            // Post data to server
+            var formBody = []; <!--To be able to send tha data to the database -->
+            for (var property in details) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(details[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            const response = await fetch('/admin/' + type, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+
+                },
+                body: formBody,
+            });
+
+            console.log(response);
+            // If response is ok, then close the modal
+            if (response.ok) {
+                modal.style.display = "none";
+            }
+        })
+
+
+        if (type === 'users') {
+            const th1 = document.createElement('th');
+            th1.innerText = 'ID';
+            const th2 = document.createElement('th');
+            th2.innerText = 'First Name';
+            const th3 = document.createElement('th');
+            th3.innerText = 'Last Name';
+            const th4 = document.createElement('th');
+            th4.innerText = 'Email';
+            const th5 = document.createElement('th');
+            th5.innerText = 'Role';
+
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            input1.name = 'id';
+            input1.value = data.id;
+            const input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.name = 'first_name';
+            input2.value = data.first_name;
+            const input3 = document.createElement('input');
+            input3.type = 'text';
+            input3.name = 'last_name';
+            input3.value = data.last_name;
+            const input4 = document.createElement('input');
+            input4.type = 'email';
+            input4.name = 'email';
+            input4.value = data.email;
+            const input5 = document.createElement('input');
+            input5.type = 'number';
+            input5.name = 'role_id';
+            input5.value = data.role.id;
+
+            const tr = document.createElement('tr');
+            tr.append(th1, th2, th3, th4, th5);
+            tbody.append(tr);
+
+            const tr2 = document.createElement('tr');
+            const td1 = document.createElement('td');
+            td1.append(input1);
+            const td2 = document.createElement('td');
+            td2.append(input2);
+            const td3 = document.createElement('td');
+            td3.append(input3);
+            const td4 = document.createElement('td');
+            td4.append(input4);
+            const td5 = document.createElement('td');
+            td5.append(input5);
+
+            tr2.append(td1, td2, td3, td4, td5);
+            tbody.append(tr2);
+        } else if (type === 'products') {
+            const th1 = document.createElement('th');
+            th1.innerText = 'ID';
+            const th2 = document.createElement('th');
+            th2.innerText = 'Name';
+            const th3 = document.createElement('th');
+            th3.innerText = 'Description';
+            const th4 = document.createElement('th');
+            th4.innerText = 'Price';
+            const th5 = document.createElement('th');
+            th5.innerText = 'Availability';
+            const th6 = document.createElement('th');
+            th6.innerText = 'Image';
+
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            input1.value = data.product_id;
+            input1.disabled = true;
+            const input2 = document.createElement('input');
+            input2.type = 'text';
+            input2.value = data.name;
+            const input3 = document.createElement('textarea');
+            input3.value = data.description;
+            const input4 = document.createElement('input');
+            input4.type = 'number';
+            input4.value = data.price;
+            const input5 = document.createElement('input');
+            input5.type = 'number';
+            input5.value = data.availability;
+            const input6 = document.createElement('input');
+            input6.type = 'text';
+            input6.value = data.image;
+
+            const tr = document.createElement('tr');
+            tr.append(th1, th2, th3, th4, th5, th6);
+            tbody.append(tr);
+
+            const tr2 = document.createElement('tr');
+            const td1 = document.createElement('td');
+            td1.append(input1);
+            const td2 = document.createElement('td');
+            td2.append(input2);
+            const td3 = document.createElement('td');
+            td3.append(input3);
+            const td4 = document.createElement('td');
+            td4.append(input4);
+            const td5 = document.createElement('td');
+            td5.append(input5);
+            const td6 = document.createElement('td');
+            td6.append(input6);
+
+            tr2.append(td1, td2, td3, td4, td5, td6);
+            tbody.append(tr2);
+        } else if (type === 'orders') {
+            const th1 = document.createElement('th');
+            th1.innerText = 'ID';
+            const th2 = document.createElement('th');
+            th2.innerText = 'First Name';
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            const input2 = document.createElement('input');
+            input2.type = 'text';
+
+            const tr = document.createElement('tr');
+            tr.append(th1, th2);
+            tbody.append(tr);
+
+            const tr2 = document.createElement('tr');
+            const td1 = document.createElement('td');
+            td1.append(input1);
+            const td2 = document.createElement('td');
+            td2.append(input2);
+
+            tr2.append(td1, td2);
+            tbody.append(tr2);
+
+        }
+
+        table.append(tbody);
+        form.append(table, submitButton, deleteButton);
+
+        return form;
+    }
+
+
+    function actionBtn(section, id) {
+        const data = _cache.find(item => (item?.id === id | item?.product_id === id));
+        const form = generateForm(section, data);
+        const _modal = document.getElementById('formparent');
+        _modal.innerHTML = '';
+        _modal.append(form);
+
+        modal.style.display = "block";
+    }
+
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

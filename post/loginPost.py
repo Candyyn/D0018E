@@ -11,12 +11,9 @@ class PostClass:
     @staticmethod
     def exec(posthandler, request, args):
         if len(args) != 3:
-            if len(posthandler.data_string) != 3:
-                posthandler.setStatus(400)
-                posthandler.contentType = 'text/json'
-                return json.dumps({'error': "Invalid Arguments"})
-            else:
-                args = posthandler.data_string
+            posthandler.setStatus(400)
+            posthandler.contentType = 'text/json'
+            return json.dumps({'error': "Invalid Arguments"})
         data, token = loginUser(args['email'], args['password'])
         if token is not None:
             posthandler.setStatus(200)

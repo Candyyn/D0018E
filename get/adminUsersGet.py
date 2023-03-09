@@ -13,7 +13,6 @@ class GetClass:
         try:
             user = checkIfAuth(request)
             hasPermission(user, 0x01100000)
-            #basket = getBasket(user['id'])
             users = getUsers()
             return json.dumps({'users': users}, default=str)
         except Exception as e:

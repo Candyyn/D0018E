@@ -45,7 +45,7 @@ def getProduct(product_id):
     print("[products.py] getProduct")
     database = Database().db
     cursor = database.cursor()
-    #query = "SELECT * FROM PRODUCTS WHERE prod_id = %s"
+    # query = "SELECT * FROM PRODUCTS WHERE prod_id = %s"
     query = """SELECT p.*, IFNULL(AVG(r.rating), 0) AS avg_rating
                     FROM PRODUCTS p
                     LEFT JOIN REVIEWS r ON p.prod_id = r.prod_id
@@ -169,3 +169,49 @@ def unlockProduct(product_id, amount=1):
         return False
     finally:
         cursor.close()
+
+
+def updateProduct(args):
+    database = Database().db
+    cursor = database.cursor()
+
+    if args['type'] == 'delete':
+        try:
+            # Begin transaction
+            cursor.execute("START TRANSACTION")
+
+            query = "DELETE FROM PRODUCTS WHERE prod_id = %s"
+            values = (args["product_id"],)
+            cursor.execute(query, values)
+
+            # Commit transaction if there are no errors
+            database.commit()
+            return True
+        except:
+            # Rollback transaction if there are errors
+            database.rollback()
+            return False
+        finally:
+            cursor.close()
+
+    else:
+        try:
+            # Begin transaction
+            cursor.execute("START TRANSACTION")
+
+            query = "UPDATE PRODUCTS SET name = %s, description = %s, price = %s, image = %s, availability = %s WHERE " \
+                    "prod_id = %s";
+            values = (
+                args["name"], args["description"], args["price"], args["image"], args["availability"],
+                args["product_id"]);
+            cursor.execute(query, values);
+
+            # Commit transaction if there are no errors
+            database.commit()
+            return True
+        except:
+            # Rollback transaction if there are errors
+            database.rollback()
+            return False
+        finally:
+            cursor.close()

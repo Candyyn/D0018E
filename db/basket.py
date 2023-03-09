@@ -134,9 +134,42 @@ def UserCheckOut(user_id):
     cursor = database.cursor()
     try:
         cursor.execute("START TRANSACTION;")
-        query = "DELETE FROM SHOPPING_CART WHERE user_id = %s;"
-        values = (user_id,)
-        cursor.execute(query, values)
+        # query = "DELETE FROM SHOPPING_CART WHERE user_id = %s;"
+
+        select_query = '''
+        SELECT user_id, product_id, amount, 0 
+        FROM SHOPPING_CART
+        WHERE user_id = %s
+        '''
+
+        cursor.execute(select_query, (user_id,))
+        rows = cursor.fetchall()
+
+        order_items = []
+        total_price = 0
+
+        for row in rows:
+            product_id, amount, price = row[1:]
+            order_items.append((product_id, amount, price))
+            total_price += amount * price
+
+        insert_order_query = '''
+        INSERT INTO ORDERS (user_id, total_price, status)
+        VALUES (%s, %s, %s)
+        '''
+
+        insert_order_item_query = '''
+        INSERT INTO ORDER_ITEMS (order_id, prod_id, quantity, price)
+        VALUES (%s, %s, %s, %s)
+        '''
+
+        cursor.execute(insert_order_query, (user_id, total_price, 0))
+        order_id = cursor.lastrowid
+
+        for item in order_items:
+            product_id, amount, price = item
+            cursor.execute(insert_order_item_query, (order_id, product_id, amount, price))
+
         database.commit()
         return True
     except Exception as e:
@@ -156,8 +189,9 @@ def addProduct(name, description, price, image, availability):
     # Insert product into PRODUCTS
     database = Database().db
     cursor = database.cursor()
-    cursor.execute("START TRANSACTION")
-    query = "INSERT INTO PRODUCTS (name, description, price, image, availability) VALUES (%s, %s, %s, %s, %s)"
+    query = "START TRANSACTION;"
+    query += "INSERT INTO PRODUCTS (name, description, price, image, availability) VALUES (%s, %s, %s, %s, %s)"
+    query += "COMMIT;"
     values = (name, description, price, image, availability)
     cursor.execute(query, values)
     database.commit()
@@ -173,8 +207,9 @@ def removeProduct(product_id):
     # Delete row from PRODUCTS
     database = Database().db
     cursor = database.cursor()
-    cursor.execute("START TRANSACTION")
+    query = "START TRANSACTION;"
     query = "DELETE FROM PRODUCTS WHERE prod_id = %s;"
+    query += "COMMIT;"
     values = (product_id,)
     cursor.execute(query, values)
     database.commit()
