@@ -29,11 +29,8 @@
         <p class="rating">Rating: <span>0</span></p>
         <p class="price"><span id="price">-</span> kr</p>  <!-- Product price -->
         <p class="description" id="description">Loading</p> <!-- Product description -->
-        <form action="/add-to-cart" method="post">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" min="1" value="1"> <!-- Quantity selector -->
-            <button type="submit" class="button button2">Add to Cart</button> <!-- Add to cart button -->
-        </form>
+        <button onclick="pageAddToCart()" type="submit" class="button button2">Add to Cart</button> <!-- Add to cart button -->
+
     </div>
 </div>
 
@@ -55,7 +52,8 @@
                 </div>
 
                 <div class="comment-area">
-                    <textarea id="commentText" class="form-control" placeholder="what is your view?" rows="4"></textarea>
+                    <textarea id="commentText" class="form-control" placeholder="what is your view?"
+                              rows="4"></textarea>
                 </div>
 
                 <div class="comment-btns mt-2">

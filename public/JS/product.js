@@ -130,3 +130,11 @@ async function submitRating() {
     window.location.reload();
 
 }
+
+function pageAddToCart() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const id = urlParams.get('id')
+    addProductToCart(id)
+}
