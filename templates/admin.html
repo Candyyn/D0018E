@@ -213,6 +213,8 @@
                 <th>Action</th>
             </tr>
         </table>
+
+        <button id="addproduct" onclick="generateFormAddProduct()">Add Product</button>
     </section>
     <section style="display: none" id="orders">
         <h2>Orders</h2>
@@ -445,6 +447,112 @@
 
 
     fetchUsers();
+
+
+    function generateFormAddProduct() {
+        const form = document.createElement('form');
+        const table = document.createElement('table');
+        const tbody = document.createElement('tbody');
+        const submitButton = document.createElement('button');
+        //const deleteButton = document.createElement('button');
+
+        // form on submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            var details = {'type': 'add'};
+            new FormData(form).forEach((value, key) => details[key] = value);
+
+            // Post data to server
+            var formBody = []; <!--To be able to send tha data to the database -->
+            for (var property in details) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(details[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            const response = await fetch('/admin/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                    'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem("token"))
+
+                },
+                body: formBody,
+            });
+
+            // If response is ok, then close the modal
+            if (response.ok) {
+                modal.style.display = "none";
+
+                setTimeout(() => {
+                    fetchProducts();
+                }, 1000);
+
+            }
+        })
+
+        const th2 = document.createElement('th');
+        th2.innerText = 'Name';
+        const th3 = document.createElement('th');
+        th3.innerText = 'Description';
+        const th4 = document.createElement('th');
+        th4.innerText = 'Price';
+        const th5 = document.createElement('th');
+        th5.innerText = 'Availability';
+        const th6 = document.createElement('th');
+        th6.innerText = 'Image';
+
+        const input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.name = 'name';
+        const input3 = document.createElement('textarea');
+        input3.name = 'description';
+        const input4 = document.createElement('input');
+        input4.type = 'number';
+        input4.name = 'price';
+        const input5 = document.createElement('input');
+        input5.type = 'number';
+        input5.name = 'availability';
+        const input6 = document.createElement('input');
+        input6.type = 'text';
+        input6.name = 'image';
+
+        const tr = document.createElement('tr');
+        tr.append(th2, th3, th4, th5, th6);
+        tbody.append(tr);
+
+        const tr2 = document.createElement('tr');
+        const td2 = document.createElement('td');
+        td2.append(input2);
+        const td3 = document.createElement('td');
+        td3.append(input3);
+        const td4 = document.createElement('td');
+        td4.append(input4);
+        const td5 = document.createElement('td');
+        td5.append(input5);
+        const td6 = document.createElement('td');
+        td6.append(input6);
+
+        tr2.append(td2, td3, td4, td5, td6);
+        tbody.append(tr2);
+
+        submitButton.innerText = 'Add Product';
+        submitButton.type = 'submit';
+
+        table.append(tbody);
+        form.append(table, submitButton);
+
+        const _modal = document.getElementById('formparent');
+        _modal.innerHTML = '';
+        _modal.append(form);
+
+
+
+        modal.style.display = "block";
+
+    }
 
 
     function generateForm(type, data) {
@@ -682,6 +790,7 @@
 
         table.append(tbody);
         form.append(table, submitButton, deleteButton);
+
 
         return form;
     }

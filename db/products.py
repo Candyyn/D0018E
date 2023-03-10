@@ -46,11 +46,11 @@ def getProduct(product_id):
     database = Database().db
     cursor = database.cursor()
     # query = "SELECT * FROM PRODUCTS WHERE prod_id = %s"
-    query = """SELECT p.*, IFNULL(AVG(r.rating), 0) AS avg_rating, GROUP_CONCAT(CONCAT(r.rating, ': ', r.comment, ': ',
-                    C.first_name,' ', C.last_name)) AS comments
+    query = """SELECT p.*, IFNULL(AVG(r.rating), 0) AS avg_rating, 
+                    IFNULL(GROUP_CONCAT(CONCAT(r.rating, ': ', r.comment, ': ', C.first_name,' ', C.last_name)), '') AS comments
                     FROM PRODUCTS p
-                    LEFT JOIN REVIEWS r ON p.prod_id = r.prod_id
-                    JOIN CUSTOMER C on r.user_id = C.user_id
+                    left JOIN REVIEWS r ON p.prod_id = r.prod_id
+                    left JOIN CUSTOMER C on r.user_id = C.user_id
                     WHERE p.prod_id = %s
                     GROUP BY p.prod_id;
                     """
@@ -203,6 +203,24 @@ def updateProduct(args):
         finally:
             cursor.close()
 
+    elif args['type'] == 'add':
+        try:
+            # Begin transaction
+            cursor.execute("START TRANSACTION")
+
+            query = "INSERT INTO PRODUCTS (name, description, price, image, availability) VALUES (%s, %s, %s, %s, %s)"
+            values = (args["name"], args["description"], args["price"], args["image"], args["availability"])
+            cursor.execute(query, values)
+
+            # Commit transaction if there are no errors
+            database.commit()
+            return True
+        except:
+            # Rollback transaction if there are errors
+            database.rollback()
+            return False
+        finally:
+            cursor.close()
     else:
         try:
             # Begin transaction
