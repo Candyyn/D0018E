@@ -8,7 +8,6 @@ from db.products import getProduct, lockProduct, unlockProduct
 
 
 def getBasket(user_id):
-    print('[basket.py] getBasket(user_id) user_id: ' + str(user_id))
     # Get user basket from SHOPPING_CART
     database = Database().db
     cursor = database.cursor()
@@ -40,7 +39,6 @@ def getBasket(user_id):
 
 
 def addBasket(user_id, product_id):
-    print('[basket.py] addBasket(user_id, product_id) user_id: ' + str(user_id) + ' product_id: ' + str(product_id))
 
     # get product
     product = getProduct(product_id)

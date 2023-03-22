@@ -14,6 +14,5 @@ class GetClass:
         if len(args) > 0 and args['id'] is not None:
             id = args['id']
 
-        print(id)
         data = getProduct(id)
         return json.dumps({'product': data}, default=str)

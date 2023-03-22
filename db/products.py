@@ -57,11 +57,10 @@ def getProduct(product_id):
     values = (product_id,)
     cursor.execute(query, values)
     raw = cursor.fetchone()
-    print(raw)
+
 
     comments = raw[7].split(',')
     comments = [comment.split(': ') for comment in comments]
-    print(comments)
 
     if raw is not None:
         return {
@@ -249,6 +248,17 @@ def createComment(user, args):
     try:
         database = Database().db
         cursor = database.cursor()
+
+        # Check if the user has ordered the product before
+        query = "SELECT COUNT(*) FROM ORDERS o INNER JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id WHERE o.user_id " \
+                "= %s " \
+                "AND oi.prod_id = %s;"
+        values = (user['id'], args["id"])
+        cursor.execute(query, values)
+        result = cursor.fetchone()
+        if result[0] == 0:
+            return False
+
         # Begin transaction
         cursor.execute("START TRANSACTION")
 

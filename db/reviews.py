@@ -10,6 +10,16 @@ def addReview(user, product_id, comment, rating):
     if 0 >= _rating < 6:
         return False
 
+    # Check if the user has ordered the product before
+    query = "SELECT COUNT(*) FROM ORDERS o INNER JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id WHERE o.user_id = %s " \
+            "AND oi.prod_id = %s;"
+    values = (user['id'], product_id)
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+    if result[0] == 0:
+        return False
+
+    # Insert the new review into the REVIEWS table
     query = "START TRANSACTION;"
     query += "INSERT INTO REVIEWS (user_id, prod_id, comment, rating) VALUES (%s, %s, %s, %s);"
     query += "COMMIT;"
